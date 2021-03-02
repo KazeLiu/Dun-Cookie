@@ -1,0 +1,40 @@
+{
+	"manifest_version": 2,
+	"name": "蹲饼",
+	"version": "1.0",
+	"description": "自由的yj",
+	"author": "Kaze",
+	"icons": {
+		"48": "image/icon.png",
+		"128": "image/icon.png"
+	},
+	"browser_action": {
+		"default_icon": "image/icon.png",
+		"default_popup": "html/popup.html"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"https://www.baidu.com/*"
+			],
+			"js": [
+				"content-script.js"
+			]
+		}
+	],
+	"background": {
+		"scripts": [
+			"js/background.js"
+		],
+		"persistent": true
+	},
+	"permissions":
+	[
+		"webRequest", 
+		"webRequestBlocking", 
+		"storage", 
+		"notifications",
+		"http://*/*", 
+		"https://*/*" 
+	]
+}
