@@ -131,9 +131,8 @@ var Kaze = {
     },
     Init() {
         this.Getdynamic();
-        setTimeout(() => {
-            this.SetInterval();
-        }, 5000);
+        this.SendNotice("basic","已经开始蹲饼了","点击应用图标查看最近的发的十个饼");
+        this.SetInterval();
         chrome.notifications.onClicked.addListener(id => {
             chrome.storage.local.get(['cardList'], result => {
                 let todynamic = result.cardList.filter(x => x.time == id);
@@ -147,7 +146,6 @@ var Kaze = {
                 }
 
             })
-
         })
     }
 }
