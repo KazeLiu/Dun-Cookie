@@ -8,7 +8,7 @@ var Kaze = {
     apinew: {},
     dunIndex: 0,
     setIntervalindex: 0,
-    Getdynamic(uid = '161775300') {
+    Getdynamic(alert = false, uid = '161775300') {
         let that = this;
         let xhr = new XMLHttpRequest();
         xhr.open("GET", `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=${uid}`, true);
@@ -36,7 +36,7 @@ var Kaze = {
                     chrome.storage.local.get(['cardList'], result => {
                         if (result != null && result.cardList != null && result.cardList.length > 0) {
                             that.historynew = result.cardList[0];
-                            if (that.historynew.time != that.apinew.time) {
+                            if (that.historynew.time != that.apinew.time || alert) {
                                 let dynamicInfo = that.apinew.dynamicInfo;
                                 let type = that.apinew.type;
                                 let origindynamic = that.apinew.origindynamicInfo;
@@ -130,8 +130,8 @@ var Kaze = {
         return type;
     },
     Init() {
-        this.Getdynamic();
-        this.SendNotice("basic","已经开始蹲饼了","点击应用图标查看最近的发的十个饼");
+        this.SendNotice("basic", "已经开始蹲饼了", "已为你展示最新的饼，点击应用图标查看最近的发的十个饼");
+        this.Getdynamic(true);
         this.SetInterval();
         chrome.notifications.onClicked.addListener(id => {
             chrome.storage.local.get(['cardList'], result => {

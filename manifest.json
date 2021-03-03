@@ -23,7 +23,8 @@
 		"webRequestBlocking",
 		"storage",
 		"notifications",
-		"https://*.bilibili.com/*"
+		"https://*.bilibili.com/*",
+		"https://*.hdslb.com/*"
 	],
 	"options_ui": {
 		"page": "html/options.html",
