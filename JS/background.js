@@ -85,10 +85,10 @@ var Kaze = {
     },
     SetInterval() {
         chrome.storage.local.get(['time'], result => {
-            if (result == {}) {
-                time = 30000;
+            if (result.time == undefined) {
+                result.time = 30000;
                 chrome.storage.local.set({
-                    time: time,
+                    time: result.time,
                 });
             }
             this.setIntervalindex = setInterval(() => {
@@ -131,7 +131,9 @@ var Kaze = {
     },
     Init() {
         this.Getdynamic();
-        this.SetInterval();
+        setTimeout(() => {
+            this.SetInterval();
+        }, 5000);
         chrome.notifications.onClicked.addListener(id => {
             chrome.storage.local.get(['cardList'], result => {
                 let todynamic = result.cardList.filter(x => x.time == id);

@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "蹲饼",
 	"version": "1.0",
-	"description": "自由的yj",
+	"description": "一起监视自由的兔兔",
 	"author": "Kaze",
 	"icons": {
 		"48": "image/icon.png",
@@ -12,16 +12,6 @@
 		"default_icon": "image/icon.png",
 		"default_popup": "html/popup.html"
 	},
-	"content_scripts": [
-		{
-			"matches": [
-				"https://www.baidu.com/*"
-			],
-			"js": [
-				"content-script.js"
-			]
-		}
-	],
 	"background": {
 		"scripts": [
 			"js/background.js"
@@ -33,8 +23,7 @@
 		"webRequestBlocking",
 		"storage",
 		"notifications",
-		"http://*/*",
-		"https://*/*"
+		"https://*.bilibili.com/*"
 	],
 	"options_ui": {
 		"page": "html/options.html",
