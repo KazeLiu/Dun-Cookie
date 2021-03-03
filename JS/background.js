@@ -8,7 +8,7 @@ var Kaze = {
     apinew: {},
     dunIndex: 0,
     setIntervalindex: 0,
-    Getdynamic(uid = '456664753') {
+    Getdynamic(uid = '161775300') {
         let that = this;
         let xhr = new XMLHttpRequest();
         xhr.open("GET", `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=${uid}`, true);
