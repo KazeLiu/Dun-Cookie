@@ -1,17 +1,19 @@
 
 // = 'https://space.bilibili.com/161775300/dynamic'
-
+// = 'https://space.bilibili.com/456664753/dynamic' 测试 央视新闻
 var Kaze = {
     cardList: [],
     historynew: {},
     apinew: {},
-    Getdynamic(uid = '161775300') {
+    dunIndex: 0,
+    setIntervalindex: 0,
+    Getdynamic(uid = '456664753') {
         let that = this;
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", 'https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300', true);
+        xhr.open("GET", `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=${uid}`, true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
-                console.log(that);
+                that.cardList = [];
                 let info = JSON.parse(xhr.responseText);
                 if (info.code == 0 && info.data != null && info.data.cards != null && info.data.cards.length > 0) {
                     info.data.cards.map(x => {
@@ -56,10 +58,7 @@ var Kaze = {
                                 }
 
                                 chrome.storage.local.set({ cardList: that.cardList });
-                            } else {
-                                //等待下一次循环
-                                console.log("蹲");
-                            }
+                            } 
                         } else {
                             chrome.storage.local.set({ cardList: that.cardList });
                         }
@@ -69,25 +68,33 @@ var Kaze = {
         }
         xhr.send();
     },
-    SetInterval(interval = 300000) {
-        console.log("开始");
+    SetInterval() {
+        chrome.storage.local.get(['time'], result => {
+            if (result == {}) {
+                time = 30000;
+                chrome.storage.local.set({
+                    time: time,
+                });
+            }
+            this.setIntervalindex = setInterval(() => {
+                this.dunIndex++;
+                this.Getdynamic();
+            }, result.time);
+        });
 
-        setInterval(() => {
-            this.Getdynamic();
-        }, interval);
     },
     Init() {
         this.Getdynamic();
+        this.SetInterval();
         chrome.notifications.onClicked.addListener(id => {
             chrome.storage.local.get(['cardList'], result => {
                 let todynamic = result.cardList.filter(x => x.time == id);
                 if (todynamic != null && todynamic.length > 0) {
-                    debugger;
                     if (todynamic[0].type == 0) {
                         chrome.tabs.create({ url: todynamic[0].dynamicInfo.short_link });
                     }
                     else {
-                        chrome.tabs.create({ url:'https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300' });
+                        chrome.tabs.create({ url: 'https://space.bilibili.com/161775300/dynamic' });
                     }
                 }
 

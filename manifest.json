@@ -28,13 +28,16 @@
 		],
 		"persistent": true
 	},
-	"permissions":
-	[
-		"webRequest", 
-		"webRequestBlocking", 
-		"storage", 
+	"permissions": [
+		"webRequest",
+		"webRequestBlocking",
+		"storage",
 		"notifications",
-		"http://*/*", 
-		"https://*/*" 
-	]
+		"http://*/*",
+		"https://*/*"
+	],
+	"options_ui": {
+		"page": "html/options.html",
+		"chrome_style": true
+	}
 }

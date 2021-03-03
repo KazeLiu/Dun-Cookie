@@ -3,14 +3,38 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>popup</title>
-</head>
-
-<body style="width:500px;min-height:100px;">
-	这里是popup。
-	<input type="button" id="btnPaste" value="点">
+	<title>最近动态</title>
 	<script type="text/javascript" src="../JS/jquery-3.5.1.min.js"></script>
 	<script type="text/javascript" src="../js/popup.js"></script>
-</body>
+</head>
 
+<body style="width:300px;min-height:400px;">
+	<div id="toLink">兔兔在B站的最近动态，最新十条，不包含置顶。<br/>点击这里跳转到B站动态</div>
+	<div id="reload-info"></div>
+	<div id="title-content">
+		
+	</div>
+</body>
+<style>
+	#toLink{
+		color:#23ade5;
+		cursor: pointer;
+	}
+	.card{
+		color:#222;
+		margin: 10px 0;
+		padding-bottom:10px ;
+		border-bottom: 2px solid #222;
+	}
+	.card:last-child{
+		border-bottom: none;
+	}
+	.card .time{
+		color:#23ade5;
+		font-size: 16px;
+	}
+	.card .content{
+		margin-top: 6px;
+	}
+</style>
 </html>
