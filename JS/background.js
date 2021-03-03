@@ -23,7 +23,6 @@ var Kaze = {
                 this.GetBilibilidynamic();
             }, result.time);
         });
-
     },
     SendNotice(type, title, message, imageUrl) {
         if (imageUrl) {
@@ -42,23 +41,26 @@ var Kaze = {
                 type: type
             });
         }
-
     },
-    SetInCardlist() {
-        // this.cardlist = [...getBili.cardlist, ...getWeibo.cardlist];
+    // 蹲饼入口
+    GetData(success) {
+        getWeibo.Getdynamic(null, () => {
+            getBili.Getdynamic(null, () => {
+                this.cardlist.sort((x, y) => {
+                    return x.time > y.time ? -1 : 1
+                });
+                console.log(this.cardlist);
+                if (success) {
+                    success();
+                }
+            });
+        });
     },
     Init() {
-        // this.SendNotice("basic", "已经开始蹲饼了", "已为你展示最新的饼，点击应用图标查看最近的发的十个饼");
-        // this.GetBilibilidynamic(true);
-        getWeibo.Getdynamic();
-        getBili.Getdynamic();
-        setTimeout(() => {
-            this.cardlist.sort((x, y) => {
-                return x > y ? -1 : 1
-            })
-            console.log(this.cardlist);
-        }, 1000);
-        // this.SetInterval();
+        this.GetData();
+
+         this.SetInterval();
+        // 只打开列表 微博不允许直接连接进入
         // chrome.notifications.onClicked.addListener(id => {
         //     chrome.storage.local.get(['cardList'], result => {
         //         let todynamic = result.cardList.filter(x => x.time == id);
@@ -81,9 +83,10 @@ let getBili = {
     // B站：动态列表
     cardlist: [],
     // bilibili版本
-    Getdynamic(alert = false) {
+    Getdynamic(alert = false, success) {
         let that = this;
         let xhr = new XMLHttpRequest();
+        that.cardlist = [];
         xhr.open("GET", `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300`, true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
@@ -105,6 +108,10 @@ let getBili = {
                     chrome.storage.local.set({
                         bilicardList: that.cardlist,
                         cardList: Kaze.cardlist
+                    }, () => {
+                        if (success) {
+                            success();
+                        }
                     });
                 }
             }
@@ -112,13 +119,16 @@ let getBili = {
         xhr.send();
     },
     GetdynamicType(dynamicInfo) {
+        // 0为视频 1为动态
         let type = -1;
         if (dynamicInfo["item"] == undefined) {
             type = 0;
         }
-        else if (dynamicInfo["item"] != undefined && dynamicInfo["origin"] != undefined) {
-            type = 2;
-        } else if (dynamicInfo["item"] != undefined) {
+        // 忽略转发
+        // else if (dynamicInfo["item"] != undefined && dynamicInfo["origin"] != undefined) {
+        //     type = 2;
+        // } 
+        else if (dynamicInfo["item"] != undefined) {
             type = 1;
         }
         return type;
@@ -129,9 +139,10 @@ let getWeibo = {
     // 微博：动态列表
     cardlist: [],
     // 微博
-    Getdynamic(alert = false) {
+    Getdynamic(alert = false, success) {
         let that = this;
         let xhr = new XMLHttpRequest();
+        that.cardlist = [];
         xhr.open("GET", `https://m.weibo.cn/api/container/getIndex?type=uid&value=6279793937&containerid=1076036279793937`, true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
@@ -144,7 +155,7 @@ let getWeibo = {
                             that.cardlist.push({
                                 time: Math.floor(new Date(dynamicInfo.created_at).getTime() / 1000),
                                 dynamicInfo: dynamicInfo.text,
-                                type: 0,
+                                type: that.GetdynamicType(dynamicInfo.text),
                                 source: 'weibo'
                             });
                         }
@@ -156,12 +167,27 @@ let getWeibo = {
                     chrome.storage.local.set({
                         weibocardList: that.cardlist,
                         cardList: Kaze.cardlist
+                    }, () => {
+                        if (success) {
+                            success();
+                        }
                     });
                 }
             }
         }
         xhr.send();
-    }
+    },
+    GetdynamicType(dynamicInfo) {
+        // 0为视频 1为动态
+        let type = -1;
+        if (dynamicInfo.split('明日方舟Arknights的微博视频').length > 1) {
+            type = 0;
+        }
+        else {
+            type = 1;
+        }
+        return type;
+    },
 }
 
 Kaze.Init();
