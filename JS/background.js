@@ -42,11 +42,11 @@ var Kaze = {
                                 let origindynamic = that.apinew.origindynamicInfo;
                                 let origindyType = that.apinew.origindyType;
                                 //参数反复利用
-                                dynamicInfo = dynamicInfo.item;
                                 // type==0 视频 ==1 动态 ==2转发
                                 if (type == 0) {
                                     that.SendNotice("image", `饼来了!${dynamicInfo.title}`, dynamicInfo.dynamic, dynamicInfo.pic)
                                 } else {
+                                    dynamicInfo = dynamicInfo.item;
                                     if (type == 2) {
                                         //转发数据
                                         if (origindyType == 1) {
