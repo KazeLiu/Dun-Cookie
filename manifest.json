@@ -24,7 +24,8 @@
 		"storage",
 		"notifications",
 		"https://*.bilibili.com/*",
-		"https://*.hdslb.com/*"
+		"https://*.hdslb.com/*",
+		"https://*.weibo.cn/*"
 	],
 	"options_ui": {
 		"page": "html/options.html",
