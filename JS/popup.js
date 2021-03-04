@@ -7,6 +7,22 @@
         cardlist = win.Kaze.cardlist;
         console.log(cardlist);
         Kaze.ShowList(cardlist);
+        //根据设置隐藏部分列表
+        //临时方法  因为异步
+        setTimeout(() => {
+            chrome.storage.local.get(['setting'], result => {
+                let setting = result.setting;
+                if (!setting.getbili) {
+                    document.getElementById('showB').click();
+                }
+                if (!setting.getweibo) {
+                    document.getElementById('showWeibo').click();
+                }
+                if (!setting.getyj) {
+                    document.getElementById('showyj').click();
+                }
+            });
+        }, 100);
         let card = document.querySelectorAll('.card');
         card.forEach(item => {
             item.addEventListener('click', event => {
@@ -17,7 +33,6 @@
     let button = document.querySelectorAll('button');
     button.forEach(item => {
         item.addEventListener('click', event => {
-            let btn = event.target;
             let id = event.target.id;
             let cardlist = [];
             cardlist = win.Kaze.cardlist;
@@ -32,25 +47,30 @@
                     event.target.classList.toggle('off');
                     document.querySelectorAll('.card[data-type="0"]').forEach(item => {
                         item.classList.toggle('none');
-                    })
+                    });
                     break;
                 case 'showWeibo':
                     event.target.classList.toggle('off');
                     document.querySelectorAll('.card[data-type="1"]').forEach(item => {
                         item.classList.toggle('none');
-                    })
+                    });
                     break;
-                case 'showtxz':
+                case 'showyj':
                     event.target.classList.toggle('off');
                     document.querySelectorAll('.card[data-type="2"]').forEach(item => {
                         item.classList.toggle('none');
-                    })
+                    });
                     break;
+                case 'toSetting':
+                    var urlToOpen = chrome.extension.getURL('html/options.html');
+                    chrome.tabs.create({
+                        url: urlToOpen
+                    });
+                    break;
+
             }
         })
     });
-
-
 }
 let Kaze = {
     ShowList(cardlist) {

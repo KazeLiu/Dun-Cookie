@@ -1,20 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>配置</title>
-    
+
 </head>
 
 <body>
-    <div style="display: flex;align-items: center;justify-content: center;">
-        <span>刷新饼频率（毫秒/次）：</span>
-        <input type="number" id="reloadtime" min="5000" value="60000" placeholder="速度过快可能会导致电脑卡顿">
+    <div id="body">
+        <h1>信息</h1>
+        <span id="info">获取中……</span>
+        <h1>设置</h1>
+        <div class="optionlist">
+            <span>刷新饼频率（毫秒/次）：</span>
+            <input type="number" id="reloadtime" min="5000" value="60000" placeholder="速度过快可能会导致电脑卡顿">
+        </div>
+        <div class="optionlist">
+            <span>饼接收：</span>
+            <div class="checkarea">
+                <span class="option-input-span">
+                    <input type="checkbox" id="getbili" value="getbili">
+                    <label for="getbili">bilibili推送</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="checkbox" id="getweibo" value="getweibo">
+                    <label for="getweibo">微博推送</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="checkbox" id="getyj" value="getyj">
+                    <label for="getyj">通讯组推送</label>
+                </span>
+            </div>
+        </div>
+        <div class="buttonarea">
+            <div id="alertinfo"></div>
+            <button id="save">保存</button>
+        </div>
     </div>
-    <button id="save">保存</button>
 </body>
+<style>
+    #body {
+        padding: 10px;
+        width: 500px;
+        margin: auto
+    }
+
+    .optionlist {
+        margin: 10px auto;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+    }
+
+    .checkarea {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+    }
+
+    .option-input-span {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+    }
+
+    .option-input-span label {
+        margin-left: 3px;
+    }
+
+    .buttonarea {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+</style>
 <script type="text/javascript" src="../JS/options.js"></script>
+
 </html>

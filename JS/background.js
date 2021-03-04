@@ -15,19 +15,19 @@ var Kaze = {
         bili: false,
         announce: false
     },
-    SetInterval() {
-        chrome.storage.local.get(['time'], result => {
-            if (result.time == undefined) {
-                result.time = 30000;
-                chrome.storage.local.set({
-                    time: result.time,
-                });
-            }
-            this.setIntervalindex = setInterval(() => {
-                this.dunIndex++;
-                this.GetData();
-            }, result.time);
-        });
+    setting: {
+        time: 15000,
+        getweibo: true,
+        getbili: true,
+        getyj: true
+    },
+    SetInterval(time) {
+        console.log(time);
+        this.setIntervalindex = setInterval(() => {
+
+            this.dunIndex++;
+            this.GetData();
+        }, time);
     },
     SendNotice(title, message, imageUrl) {
         if (imageUrl) {
@@ -73,7 +73,7 @@ var Kaze = {
             this.cardlist.sort((x, y) => {
                 return x.time > y.time ? -1 : 1;
             })
-            console.log(this.cardlist);
+            // console.log(this.cardlist);
             if (success) {
                 success();
             }
@@ -97,8 +97,18 @@ var Kaze = {
     //     }, time);
     // },
     Init() {
-        this.GetData();
-        this.SetInterval();
+        chrome.storage.local.get(['setting'], result => {
+            if (result.setting == undefined) {
+                chrome.storage.local.set({
+                    setting: this.setting,
+                });
+            } else {
+                this.setting = result.setting;
+            }
+            this.GetData();
+            this.SetInterval(this.setting.time);
+        });
+
         // this.TestSetInterval(3000);
 
         // 只打开列表 微博不允许直接连接进入
@@ -145,8 +155,10 @@ let getBili = {
                         url: dynamicInfo.short_link || that.dturl
                     });
                 });
-                console.log(that.cardlist);
-                that.JudgmentNew(that.cardlist);
+                // console.log(that.cardlist);
+                if (Kaze.setting.getbili) {
+                    that.JudgmentNew(that.cardlist);
+                }
                 that.oldcardlist = that.cardlist;
                 //重新计算组合
                 Kaze.cardlist = Kaze.cardlist.filter(x => x.source != 0);
@@ -253,9 +265,11 @@ let getWeibo = {
                         });
                     }
                 });
-                console.log(that.cardlist);
+                // console.log(that.cardlist);
                 // 判定是否是新的
-                that.JudgmentNew(that.cardlist);
+                if (Kaze.setting.getweibo) {
+                    that.JudgmentNew(that.cardlist);
+                }
                 that.oldcardlist = that.cardlist;
                 //重新计算组合并保存
                 Kaze.cardlist = Kaze.cardlist.filter(x => x.source != 1);
@@ -322,7 +336,10 @@ let getAnnouncement = {
             });
             // console.log(that.cardlist);
             // 判定是否是新的
-            that.JudgmentNew(that.cardlist);
+            if (Kaze.setting.getyj) {
+                that.JudgmentNew(that.cardlist);
+            }
+
             that.oldcardlist = that.cardlist;
             //重新计算组合并保存
             Kaze.cardlist = Kaze.cardlist.filter(x => x.source != 2);
