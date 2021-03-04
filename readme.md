@@ -1,8 +1,8 @@
 # 鹰角蹲饼器
 
 ## 用于实时抓取兔兔发的动态（测试阶段）
- ![avatar](/mdImg/1.png)
- ![avatar](/mdImg/2.png)
+ ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/1.png)
+ ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/2.png)
 
 
     只有一个设置项，就是刷新时间，单位是毫秒，速度过快可能被ban掉IP哦
