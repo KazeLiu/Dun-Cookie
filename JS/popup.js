@@ -7,9 +7,14 @@
         cardlist = win.Kaze.cardlist;
         console.log(cardlist);
         Kaze.ShowList(cardlist);
+        let card = document.querySelectorAll('.card');
+        card.forEach(item => {
+            item.addEventListener('click', event => {
+                chrome.tabs.create({ url: event.currentTarget.dataset.url });
+            });
+        });
     });
-
-    let button = document.querySelectorAll('button')
+    let button = document.querySelectorAll('button');
     button.forEach(item => {
         item.addEventListener('click', event => {
             let btn = event.target;
@@ -25,24 +30,26 @@
                     break;
                 case 'showB':
                     event.target.classList.toggle('off');
-                    if ([...event.target.classList].includes('off')) {
-                        Kaze.ShowList(cardlist);
-                    } else {
-                        Kaze.ShowList(cardlist.filter(x => x.source === "bilibili"));
-                    }
+                    document.querySelectorAll('.card[data-type="0"]').forEach(item => {
+                        item.classList.toggle('none');
+                    })
                     break;
                 case 'showWeibo':
                     event.target.classList.toggle('off');
-                    if ([...event.target.classList].includes('off')) {
-                        Kaze.ShowList(cardlist);
-                    } else {
-                        Kaze.ShowList(cardlist.filter(x => x.source === "weibo"));
-
-                    }
+                    document.querySelectorAll('.card[data-type="1"]').forEach(item => {
+                        item.classList.toggle('none');
+                    })
+                    break;
+                case 'showtxz':
+                    event.target.classList.toggle('off');
+                    document.querySelectorAll('.card[data-type="2"]').forEach(item => {
+                        item.classList.toggle('none');
+                    })
                     break;
             }
         })
-    })
+    });
+
 
 }
 let Kaze = {
@@ -50,36 +57,61 @@ let Kaze = {
         if (cardlist != null && cardlist.length > 0) {
             let html = '';
             cardlist.map(x => {
-                if (x.source === "weibo") {
-                    // 处理html
-                    let data = x.dynamicInfo.split('<br />').splice(1, x.dynamicInfo.length);
-                    data[data.length - 1] = data[data.length - 1].split('<a href')[0];
-                    let dynamicInfo = data.join('<br/>');
+                if (x.source == 0) {
                     if (x.type == 0) {
-                        html += `<div class="card">
-                        <div class="time">${common.TimespanTotime(x.time)}发布于微博</div>
+                        html += `<div class="card" data-type="0" data-url="${x.url}">
+                        <div class="head">
+                            <img src="../image/bili.ico">
+                            <span class="time">${common.TimespanTotime(x.time)}</span>
+                        </div>
+                        <div class="content">${x.dynamicInfo.title}</div>
+                            </div>`;
+                    } else if (x.type == 1) {
+                        let dynamicInfo = '';
+                        if (x.dynamicInfo.item.description) {
+                            dynamicInfo = x.dynamicInfo.item.description.replace(/\n/g, "<br/>");
+                        } else {
+                            dynamicInfo = x.dynamicInfo.item.content.replace(/\n/g, "<br/>");
+                        }
+
+                        html += `<div class="card" data-type="0" data-url="${x.url}">
+                        <div class="head">
+                            <img src="../image/bili.ico">
+                                <span class="time">${common.TimespanTotime(x.time)}</span>
+                            </div>
+                        <div class="content">${dynamicInfo}</div>
+                            </div>`;
+                    }
+                }
+                else if (x.source == 1) {
+                    // 处理html
+                    if (x.type == 0) {
+                        html += `<div class="card" data-type="1" data-url="${x.url}">
+                        <div class="head">
+                        <img src="../image/weibo.ico">
+                            <span class="time">${common.TimespanTotime(x.time)}</span>
+                        </div>
                         <div class="content">【视频资源，无法播放，请去微博动态查看】</div>
-                            </div>`
+                            </div>`;
 
                     } else if (x.type == 1) {
-                        html += `<div class="card">
-                        <div class="time">${common.TimespanTotime(x.time)}发布于微博</div>
-                        <div class="content">${dynamicInfo}</div>
-                            </div>`
+                        html += `<div class="card" data-type="1"   data-url="${x.url}">
+                            <div class="head">
+                            <img src="../image/weibo.ico">
+                            <span class="time">${common.TimespanTotime(x.time)}</span>
+                        </div>
+                        <div class="content">${x.text}</div>
+                            </div>`;
                     }
-                } else if (x.source === "bilibili") {
-                    if (x.type == 0) {
-                        html += `<div class="card">
-                        <div class="time">${common.TimespanTotime(x.time)}发布于B站</div>
-                        <div class="content">${x.dynamicInfo.title}</div>
-                            </div>`
-                    } else if (x.type == 1) {
-                        let dynamicInfo = x.dynamicInfo.item.description.replace(/\n/g, "<br/>")
-                        html += `<div class="card">
-                        <div class="time">${common.TimespanTotime(x.time)}发布于B站</div>
-                        <div class="content">${dynamicInfo}</div>
-                            </div>`
-                    }
+                }
+                else if (x.source == 2) {
+                    html += `<div class="card" data-type="2"  data-url="${x.webUrl}" >
+                            <div class="head">
+                            <img src="../image/mrfz.ico">
+                            <span class="time">${common.TimespanTotime(x.time, 2)}</span>
+                        </div>
+                        <div class="content">${x.dynamicInfo}</div>
+                            </div>`;
                 }
             });
             document.getElementById('title-content').innerHTML = html;
@@ -87,7 +119,7 @@ let Kaze = {
     }
 }
 let common = {
-    TimespanTotime(date) {
+    TimespanTotime(date, type = 1) {
         date = new Date(date * 1000);
         let Y = date.getFullYear();
         let M = (date.getMonth() + 1);
@@ -95,6 +127,9 @@ let common = {
         let h = date.getHours();
         let m = date.getMinutes();
         let s = date.getSeconds();
+        if (type == 2) {
+            return `${Y}-${this.addZero(M)}-${this.addZero(D)}`;
+        }
         return `${Y}-${this.addZero(M)}-${this.addZero(D)} ${this.addZero(h)}:${this.addZero(m)}:${this.addZero(s)}`;
     },
     addZero(m) {
