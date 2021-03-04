@@ -204,10 +204,10 @@ let getBili = {
                     // }
                 } else {
                     dynamicInfo = dynamicInfo.dynamicInfo.item;
-                    if (dynamicInfo?.pictures != undefined) {
-                        Kaze.SendNotice(`【B站】喂公子吃饼!`, dynamicInfo?.content || dynamicInfo?.description, dynamicInfo?.pictures[0].img_src)
+                    if (dynamicInfo != null && dynamicInfo != undefined && dynamicInfo.pictures != undefined) {
+                        Kaze.SendNotice(`【B站】喂公子吃饼!`, dynamicInfo.content || dynamicInfo.description, dynamicInfo.pictures[0].img_src)
                     } else {
-                        Kaze.SendNotice(`【B站】喂公子吃饼!`, dynamicInfo?.content || dynamicInfo?.description);
+                        Kaze.SendNotice(`【B站】喂公子吃饼!`, dynamicInfo.content || dynamicInfo.description);
                     }
                 }
 
@@ -236,7 +236,7 @@ let getWeibo = {
                 data.data.cards.map(x => {
                     //删除置顶 x.mblog.title != undefined
                     // x.mblog.title == undefined
-                    if (!x.mblog.title) {
+                    if (x.mblog != undefined && x.mblog.title == undefined) {
                         let dynamicInfo = x.mblog;
                         // 处理html
                         let temp = dynamicInfo.text.split('<br />').splice(1, dynamicInfo.text.length);
