@@ -12,8 +12,8 @@ let options = {
             () => {
                 let time = document.getElementById('reloadtime').value;
                 time = time == "" ? 15000 : time;
-                if (time < 1500) {
-                    time = 1500;
+                if (time < 1000) {
+                    time = 1000;
                     document.getElementById('reloadtime').value = time;
                 }
                 this.setting.time = time;
@@ -30,9 +30,6 @@ let options = {
                     this.ShowText("保存成功");
                 });
             });
-        document.getElementById('save').addEventListener('click', () => {
-
-        });
     },
     ShowText(text) {
         document.getElementById('alertinfo').innerHTML = text
