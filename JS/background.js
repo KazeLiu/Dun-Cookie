@@ -130,6 +130,7 @@ var Kaze = {
 
 let getBili = {
     url: `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300`,
+    // url: `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=456664753`,//央视新闻
     // url: `test/bJson.json`,
     dturl: `https://space.bilibili.com/161775300/dynamic`,
 
@@ -230,8 +231,9 @@ let getBili = {
 
 let getWeibo = {
     url: `https://m.weibo.cn/api/container/getIndex?type=uid&value=6279793937&containerid=1076036279793937`,
+    // url: `https://m.weibo.cn/api/container/getIndex?uid=2656274875&t=0&luicode=10000011&lfid=100103type%3D1%26q%3D%E5%A4%AE%E8%A7%86%E6%96%B0%E9%97%BB&type=uid&value=2656274875&containerid=1076032656274875`,
     // url: `test/wJson.json`,
-     dturl: `https://m.weibo.cn/u/6279793937`,
+    dturl: `https://m.weibo.cn/u/6279793937`,
 
     // 微博：动态列表
     cardlist: [],
@@ -251,9 +253,15 @@ let getWeibo = {
                     if (x.mblog != undefined && x.mblog.title == undefined) {
                         let dynamicInfo = x.mblog;
                         // 处理html
-                        let temp = dynamicInfo.text.split('<br />').splice(1, dynamicInfo.text.length);
-                        temp[temp.length - 1] = temp[temp.length - 1].split('<a href')[0];
-                        let process_dynamic = temp.join('<br/>');
+                        let process_dynamic = '';
+                        try {
+                            let temp = dynamicInfo.text.split('<br />').splice(1, dynamicInfo.text.length);
+                            temp[temp.length - 1] = temp[temp.length - 1].split('<a href')[0];
+                            process_dynamic = temp.join('<br/>');
+                        } catch (error) {
+                            process_dynamic = dynamicInfo.text;
+
+                        }
                         that.cardlist.push({
                             time: Math.floor(new Date(dynamicInfo.created_at).getTime() / 1000),
                             dynamicInfo: dynamicInfo.text,
@@ -263,6 +271,7 @@ let getWeibo = {
                             source: 1,
                             url: that.dturl
                         });
+
                     }
                 });
                 // console.log(that.cardlist);
@@ -288,11 +297,15 @@ let getWeibo = {
     GetdynamicType(dynamicInfo) {
         // 0为视频 1为动态
         let type = -1;
-        if (dynamicInfo.page_info.type == "video") {
-            type = 0;
-        }
-        else {
-            type = 1;
+        try {
+            if (dynamicInfo.page_info.type == "video") {
+                type = 0;
+            }
+            else {
+                type = 1;
+            }
+        } catch (error) {
+            
         }
         return type;
     },
