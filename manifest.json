@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
 	"name": "蹲饼",
-	"version": "1.1",
-	"description": "一起监视自由的兔兔",
+	"version": "1.2.6",
+	"description": "一起监视自由的兔兔。明日方舟兔兔发布动态发布时间越来越奇怪了，我每天下午4点刷都刷不出来，怎么办呢？写一个蹲饼器盯着兔兔看！",
 	"author": "Kaze",
 	"icons": {
 		"48": "image/icon.png",

@@ -1,12 +1,11 @@
-
-// = 'https://space.bilibili.com/161775300/dynamic'
-// = 'https://space.bilibili.com/456664753/dynamic' 测试 央视新闻
-// 297326 自己
 var Kaze = {
     //存在本地的总列表 里面有标题，内容，图片，类型
     cardlist: [],
+    //给前台用的列表 已经排序
+    cardlistsort: [],
     //请求次数
     dunIndex: 0,
+    dunTime: new Date(),
     // 循环的标识
     setIntervalindex: 0,
     // 加载完成标志
@@ -22,12 +21,11 @@ var Kaze = {
         getyj: true
     },
     SetInterval(time) {
-        console.log(time);
         this.setIntervalindex = setInterval(() => {
-
             this.dunIndex++;
+            this.dunTime = new Date();
             this.GetData();
-        }, time);
+        }, parseInt(time));
     },
     SendNotice(title, message, imageUrl) {
         if (imageUrl) {
@@ -60,7 +58,7 @@ var Kaze = {
         getAnnouncement.Getdynamic(() => {
             this.loadSuccess.announce = true;
             this.ReturnDate(success);
-        })
+        });
     },
     ReturnDate(success) {
         let loadSuccess = this.loadSuccess;
@@ -72,8 +70,8 @@ var Kaze = {
             };
             this.cardlist.sort((x, y) => {
                 return x.time > y.time ? -1 : 1;
-            })
-            // console.log(this.cardlist);
+            });
+            this.cardlistsort = this.cardlist;
             if (success) {
                 success();
             }
@@ -132,8 +130,9 @@ var Kaze = {
 
 let getBili = {
     url: `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300`,
-    dturl: `https://space.bilibili.com/161775300/dynamic`,
-    // url: `../test.json`,
+    url: `test/bJson.json`,
+    // dturl: `https://space.bilibili.com/161775300/dynamic`,
+
     // B站：动态列表
     cardlist: [],
     oldcardlist: [],
@@ -231,8 +230,9 @@ let getBili = {
 
 let getWeibo = {
     url: `https://m.weibo.cn/api/container/getIndex?type=uid&value=6279793937&containerid=1076036279793937`,
-    dturl: `https://m.weibo.cn/u/6279793937`,
-    // url: `../test.json`,
+    url: `test/wJson.json`,
+    // dturl: `https://m.weibo.cn/u/6279793937`,
+
     // 微博：动态列表
     cardlist: [],
     oldcardlist: [],
@@ -310,7 +310,7 @@ let getWeibo = {
 
 let getAnnouncement = {
     url: `https://ak-fs.hypergryph.com/announce/IOS/announcement.meta.json`,
-    //url: `../test.json`,
+    // url: `test/yJson.json`,
     // 通讯录：动态列表
     cardlist: [],
     oldcardlist: [],
@@ -334,7 +334,6 @@ let getAnnouncement = {
                     });
                 }
             });
-            // console.log(that.cardlist);
             // 判定是否是新的
             if (Kaze.setting.getyj) {
                 that.JudgmentNew(that.cardlist);
@@ -356,7 +355,7 @@ let getAnnouncement = {
     },
     JudgmentNew(dynamiclist) {
         if (this.oldcardlist.length > 0 && this.oldcardlist[0].announceId != dynamiclist[0].announceId) {
-            Kaze.SendNotice("【制作组通讯】喂公子吃饼！", this.dynamiclist[0].dynamicInfo);
+            Kaze.SendNotice("【制作组通讯】喂公子吃饼！", dynamiclist[0].dynamicInfo);
         }
     }
 }

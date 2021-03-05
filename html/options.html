@@ -13,10 +13,13 @@
     <div id="body">
         <h1>信息</h1>
         <span id="info">获取中……</span>
+        <br />
+        <!-- <span>点击页面上的<span style="color:#23ade5">动态列表</span>即可强制刷新一次全部信息</span> -->
         <h1>设置</h1>
         <div class="optionlist">
-            <span>刷新饼频率（毫秒/次）：</span>
-            <input type="number" id="reloadtime" min="5000" value="60000" placeholder="速度过快可能会导致电脑卡顿">
+            <span>刷新饼频率：</span>
+            <input type="number" id="reloadtime" value="15000" placeholder="">
+            <span>（速度过快会Ban掉IP,强制大于1500）</span>
         </div>
         <div class="optionlist">
             <span>饼接收：</span>
