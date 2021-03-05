@@ -1,7 +1,13 @@
 ﻿window.onload = function () {
     let win = chrome.extension.getBackgroundPage();
+    //顺便刷新一下后台
+    // win.Kaze.GetData(() => {
+
+    // });
+
     let cardlist = [];
-    cardlist = win.Kaze.cardlistsort;
+    cardlist = win.Kaze.cardlist;
+    console.log(cardlist);
     Kaze.ShowList(cardlist);
     let card = document.querySelectorAll('.card');
     card.forEach(item => {
@@ -9,7 +15,7 @@
             chrome.tabs.create({ url: event.currentTarget.dataset.url });
         });
     });
-    // 按钮绑定
+
     let button = document.querySelectorAll('button');
     button.forEach(item => {
         item.addEventListener('click', event => {
@@ -51,19 +57,23 @@
             }
         })
     });
-    // // 强刷
-    // let reloadbtn = document.getElementById('reloadbtn');
-    // reloadbtn.addEventListener('click', event => {
-    //     win.Kaze.GetData(() => {
-    //         Kaze.ShowList(win.Kaze.cardlistsort);
-    //         card = document.querySelectorAll('.card');
-    //         card.forEach(item => {
-    //             item.addEventListener('click', event => {
-    //                 chrome.tabs.create({ url: event.currentTarget.dataset.url });
-    //             });
-    //         });
-    //     });
-    // });
+
+    // 根据设置隐藏部分列表
+    // 临时方法  因为异步
+    setTimeout(() => {
+        chrome.storage.local.get(['setting'], result => {
+            let setting = result.setting;
+            if (!setting.getbili) {
+                document.getElementById('showB').click();
+            }
+            if (!setting.getweibo) {
+                document.getElementById('showWeibo').click();
+            }
+            if (!setting.getyj) {
+                document.getElementById('showyj').click();
+            }
+        });
+    }, 100);
 }
 let Kaze = {
     ShowList(cardlist) {

@@ -130,8 +130,8 @@ var Kaze = {
 
 let getBili = {
     url: `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300`,
-    url: `test/bJson.json`,
-    // dturl: `https://space.bilibili.com/161775300/dynamic`,
+    // url: `test/bJson.json`,
+    dturl: `https://space.bilibili.com/161775300/dynamic`,
 
     // B站：动态列表
     cardlist: [],
@@ -230,8 +230,8 @@ let getBili = {
 
 let getWeibo = {
     url: `https://m.weibo.cn/api/container/getIndex?type=uid&value=6279793937&containerid=1076036279793937`,
-    url: `test/wJson.json`,
-    // dturl: `https://m.weibo.cn/u/6279793937`,
+    // url: `test/wJson.json`,
+     dturl: `https://m.weibo.cn/u/6279793937`,
 
     // 微博：动态列表
     cardlist: [],
