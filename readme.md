@@ -1,12 +1,11 @@
 # 鹰角蹲饼器
 
-## 用于实时抓取兔兔发的动态（测试阶段）
+## 用于实时抓取兔兔发的动态
  ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/1.png)
  ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/2.png)
 
 
-    只有一个设置项，就是刷新时间，单位是毫秒，速度过快可能被ban掉IP哦
-    默认刷新时间30000毫秒（半分钟）
+    刷新时间，单位是毫秒，速度过快可能被ban掉IP哦
     有什么建议只管提，只要我写得出来
 
 # 更新内容
@@ -43,4 +42,4 @@
     因为B站的json总是有奇怪的字符，所以，发现bug，请及时和我说，我好针对那条动态修改
 
 # 下一步
-    不知道，先测试BUG。
+    NGer说要字体能改，我还在学，别急
