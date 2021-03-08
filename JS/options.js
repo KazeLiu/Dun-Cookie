@@ -6,6 +6,8 @@ let options = {
         document.getElementById('getbili').checked = this.setting.getbili;
         document.getElementById('getweibo').checked = this.setting.getweibo;
         document.getElementById('getyj').checked = this.setting.getyj;
+        let fontsize = this.setting.fontsize;
+        console.log(fontsize);
     },
     BindBtn() {
         document.getElementById('save').addEventListener('click',
@@ -30,6 +32,17 @@ let options = {
                     this.ShowText("保存成功");
                 });
             });
+        document.getElementById('font-btnarea').addEventListener('click',
+            (event) => {
+                if (event.target.tagName == "SPAN") {
+                    this.setting.fontsize = event.target.dataset.class;
+                    chrome.storage.local.set({
+                        setting: this.setting,
+                    }, () => {
+                       this.ShowText("保存成功");
+                    });
+                }
+            });
     },
     ShowText(text) {
         document.getElementById('alertinfo').innerHTML = text
@@ -43,7 +56,7 @@ let options = {
         setTimeout(() => {
             this.ChangeInfo();
         }, 1500);
-    }
+    },
 }
 window.onload = function () {
     chrome.storage.local.get(['setting'], result => {

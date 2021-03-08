@@ -22,6 +22,16 @@
             <span>（速度过快会Ban掉IP,强制大于1000）</span>
         </div>
         <div class="optionlist">
+            <span>字体大小：</span>
+            <span id="font-btnarea">
+                <span data-class='small'>小</span>
+                <span data-class='normal'>正常</span>
+                <span data-class='big'>大</span>
+                <span data-class='bigbig'>很大</span>
+                <span data-class='bigbigbig'>巨无霸</span>
+            </span>
+        </div>
+        <div class="optionlist">
             <span>饼接收：</span>
             <div class="checkarea">
                 <span class="option-input-span">
@@ -78,6 +88,19 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+    }
+
+    #font-btnarea span {
+        padding: 6px 10px;
+        border: 1px solid #23ade5;
+        margin: 0 2px;
+        cursor: pointer;
+        transition: all 0.5s;
+    }
+
+    #font-btnarea span.active {
+        background: #23ade5;
+        color: #fff;
     }
 </style>
 <script type="text/javascript" src="../JS/options.js"></script>
