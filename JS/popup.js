@@ -6,7 +6,7 @@
     // });
 
     let cardlist = [];
-    cardlist = win.Kaze.cardlist;
+    cardlist = win.Kaze.cardlistsort;
     console.log(cardlist);
     Kaze.ShowList(cardlist);
     let card = document.querySelectorAll('.card');
