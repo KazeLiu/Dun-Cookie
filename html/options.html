@@ -13,10 +13,23 @@
     <div id="body">
         <h1>信息</h1>
         <span id="info">获取中……</span>
+        <br />
+        <!-- <span>点击页面上的<span style="color:#23ade5">动态列表</span>即可强制刷新一次全部信息</span> -->
         <h1>设置</h1>
         <div class="optionlist">
-            <span>刷新饼频率（毫秒/次）：</span>
-            <input type="number" id="reloadtime" min="5000" value="60000" placeholder="速度过快可能会导致电脑卡顿">
+            <span>刷新饼频率：</span>
+            <input type="number" id="reloadtime" value="15000" placeholder="">
+            <span>（速度过快会Ban掉IP,强制大于1000）</span>
+        </div>
+        <div class="optionlist">
+            <span>字体大小：</span>
+            <span id="font-btnarea">
+                <span data-class='small'>小</span>
+                <span data-class='normal'>正常</span>
+                <span data-class='big'>大</span>
+                <span data-class='bigbig'>很大</span>
+                <span data-class='bigbigbig'>巨无霸</span>
+            </span>
         </div>
         <div class="optionlist">
             <span>饼接收：</span>
@@ -75,6 +88,19 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+    }
+
+    #font-btnarea span {
+        padding: 6px 10px;
+        border: 1px solid #23ade5;
+        margin: 0 2px;
+        cursor: pointer;
+        transition: all 0.5s;
+    }
+
+    #font-btnarea span.active {
+        background: #23ade5;
+        color: #fff;
     }
 </style>
 <script type="text/javascript" src="../JS/options.js"></script>

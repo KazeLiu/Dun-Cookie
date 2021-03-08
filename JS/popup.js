@@ -1,41 +1,25 @@
 ﻿window.onload = function () {
     let win = chrome.extension.getBackgroundPage();
-    console.log(win)
     //顺便刷新一下后台
-    win.Kaze.GetData(() => {
-        let cardlist = [];
-        cardlist = win.Kaze.cardlist;
-        console.log(cardlist);
-        Kaze.ShowList(cardlist);
-        //根据设置隐藏部分列表
-        //临时方法  因为异步
-        setTimeout(() => {
-            chrome.storage.local.get(['setting'], result => {
-                let setting = result.setting;
-                if (!setting.getbili) {
-                    document.getElementById('showB').click();
-                }
-                if (!setting.getweibo) {
-                    document.getElementById('showWeibo').click();
-                }
-                if (!setting.getyj) {
-                    document.getElementById('showyj').click();
-                }
-            });
-        }, 100);
-        let card = document.querySelectorAll('.card');
-        card.forEach(item => {
-            item.addEventListener('click', event => {
-                chrome.tabs.create({ url: event.currentTarget.dataset.url });
-            });
+    // win.Kaze.GetData(() => {
+
+    // });
+
+    let cardlist = [];
+    cardlist = win.Kaze.cardlistsort;
+    cardlist.sort((x, y) => x.time < y.time ? 1 : -1);
+    Kaze.ShowList(cardlist);
+    let card = document.querySelectorAll('.card');
+    card.forEach(item => {
+        item.addEventListener('click', event => {
+            chrome.tabs.create({ url: event.currentTarget.dataset.url });
         });
     });
+
     let button = document.querySelectorAll('button');
     button.forEach(item => {
         item.addEventListener('click', event => {
             let id = event.target.id;
-            let cardlist = [];
-            cardlist = win.Kaze.cardlist;
             switch (id) {
                 case 'toB':
                     chrome.tabs.create({ url: 'https://space.bilibili.com/161775300/dynamic' });
@@ -71,6 +55,24 @@
             }
         })
     });
+
+    // 根据设置隐藏部分列表
+    // 临时方法  因为异步
+    setTimeout(() => {
+        chrome.storage.local.get(['setting'], result => {
+            let setting = result.setting;
+            if (!setting.getbili) {
+                document.getElementById('showB').click();
+            }
+            if (!setting.getweibo) {
+                document.getElementById('showWeibo').click();
+            }
+            if (!setting.getyj) {
+                document.getElementById('showyj').click();
+            }
+            document.getElementById('title-content').classList.add(setting.fontsize);
+        });
+    }, 100);
 }
 let Kaze = {
     ShowList(cardlist) {
@@ -125,7 +127,7 @@ let Kaze = {
                     }
                 }
                 else if (x.source == 2) {
-                    html += `<div class="card" data-type="2"  data-url="${x.webUrl}" >
+                    html += `<div class="card" data-type="2"  data-url="${x.url}" >
                             <div class="head">
                             <img src="../image/mrfz.ico">
                             <span class="time">${common.TimespanTotime(x.time, 2)}</span>
