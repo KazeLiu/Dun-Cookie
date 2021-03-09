@@ -83,6 +83,7 @@ var Kaze = {
                 success(xhr.responseText);
             }
         }
+        xhr.setRequestHeader('Cache-Control', 'no-cache');
         xhr.send();
     },
     Init() {
