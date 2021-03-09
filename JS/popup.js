@@ -70,9 +70,12 @@
             if (!setting.getyj) {
                 document.getElementById('showyj').click();
             }
-            document.getElementById('title-content').classList.add(setting.fontsize);
         });
     }, 100);
+    chrome.storage.local.get(['setting'], result => {
+        let setting = result.setting;
+        document.getElementById('title-content').classList.add(setting.fontsize);
+    });
 }
 let Kaze = {
     ShowList(cardlist) {

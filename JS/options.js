@@ -6,10 +6,14 @@ let options = {
         document.getElementById('getbili').checked = this.setting.getbili;
         document.getElementById('getweibo').checked = this.setting.getweibo;
         document.getElementById('getyj').checked = this.setting.getyj;
-        let fontsize = this.setting.fontsize;
-        console.log(fontsize);
+        console.log(this.setting);
+        var radioObj = document.querySelectorAll(`.fontsize[value='${this.setting.fontsize}']`);
+        radioObj[0].checked = true;
+
     },
     BindBtn() {
+
+
         document.getElementById('save').addEventListener('click',
             () => {
                 let time = document.getElementById('reloadtime').value;
@@ -18,10 +22,19 @@ let options = {
                     time = 1000;
                     document.getElementById('reloadtime').value = time;
                 }
+                //接收
                 this.setting.time = time;
                 document.querySelectorAll(`.checkarea input[type='checkbox'`).forEach(item => {
                     this.setting[item.value] = item.checked;
                 });
+                //字体
+                var radioObj = document.querySelectorAll(".fontsize");
+                for (var i = 0; i < radioObj.length; i++) {
+                    if (radioObj[i].checked == true) {
+                        let value = radioObj[i].value;
+                        this.setting.fontsize = value;
+                    }
+                }
                 chrome.storage.local.set({
                     setting: this.setting,
                 }, () => {
@@ -32,17 +45,7 @@ let options = {
                     this.ShowText("保存成功");
                 });
             });
-        document.getElementById('font-btnarea').addEventListener('click',
-            (event) => {
-                if (event.target.tagName == "SPAN") {
-                    this.setting.fontsize = event.target.dataset.class;
-                    chrome.storage.local.set({
-                        setting: this.setting,
-                    }, () => {
-                       this.ShowText("保存成功");
-                    });
-                }
-            });
+
     },
     ShowText(text) {
         document.getElementById('alertinfo').innerHTML = text

@@ -24,11 +24,26 @@
         <div class="optionlist">
             <span>字体大小：</span>
             <span id="font-btnarea">
-                <span data-class='small'>小</span>
-                <span data-class='normal'>正常</span>
-                <span data-class='big'>大</span>
-                <span data-class='bigbig'>很大</span>
-                <span data-class='bigbigbig'>巨无霸</span>
+                <span class="option-input-span">
+                    <input type="radio" name="fontsize" class="fontsize" id="small" value="small">
+                    <label for="small">小</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="radio" name="fontsize" class="fontsize" id="normal" value="normal">
+                    <label for="normal">正常</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="radio" name="fontsize" class="fontsize" id="big" value="big">
+                    <label for="big">大</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="radio" name="fontsize" class="fontsize" id="bigbig" value="bigbig">
+                    <label for="bigbig">很大</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="radio" name="fontsize" class="fontsize" id="bigbigbig" value="bigbigbig">
+                    <label for="bigbigbig">巨无霸</label>
+                </span>
             </span>
         </div>
         <div class="optionlist">
@@ -90,17 +105,14 @@
         justify-content: space-between;
     }
 
-    #font-btnarea span {
-        padding: 6px 10px;
-        border: 1px solid #23ade5;
-        margin: 0 2px;
-        cursor: pointer;
-        transition: all 0.5s;
+
+    #font-btnarea{
+        display: flex;
     }
 
-    #font-btnarea span.active {
-        background: #23ade5;
-        color: #fff;
+    #font-btnarea span {
+        padding: 6px 10px;
+        margin: 0 2px;
     }
 </style>
 <script type="text/javascript" src="../JS/options.js"></script>
