@@ -32,7 +32,7 @@
 
 # 安装方法
 ## Chrome安装方法
-> - Chrome应用商店
+> - [Chrome应用商店](https://chrome.google.com/webstore/detail/%E8%B9%B2%E9%A5%BC/gblmdllhbodefkmimbcjpflhjneagkkd?hl=zh-CN&authuser=0)
 > - 下载zip通过开发者模式加载已解压的扩展程序
 > 
 ## Firefox安装方法
