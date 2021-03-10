@@ -126,7 +126,7 @@ let getBili = {
         let that = this;
         let xhr = new XMLHttpRequest();
         that.cardlist = [];
-        Kaze.Get(that.url, (responseText) => {
+        Kaze.Get(that.url+`&kaze=${Math.random().toFixed(3)}`, (responseText) => {
             let data = JSON.parse(responseText);
             if (data.code == 0 && data.data != null && data.data.cards != null && data.data.cards.length > 0) {
                 data.data.cards.map(x => {
@@ -182,22 +182,6 @@ let getBili = {
                 Kaze.SendNotice(`【B站】喂公子吃饼!`, `${dynamicInfo.title}:${dynamicInfo.dynamic}`, dynamicInfo.pic, dynamicInfo.time)
             } else {
                 if (dynamicInfo.type == 2) {
-                    //不处理转发数据
-                    // dynamicInfo=dynamicInfo.item;
-                    // if (origindyType == 1) {
-                    //     dynamicInfo.content = `${dynamicInfo.content}//@${origindynamic?.user?.name}:${origindynamic?.item?.description}`;
-                    //     if (origindynamic?.item?.pictures != undefined) {
-                    //         that.SendNotice("image", `[转发动态]饼来了!`, `${dynamicInfo.content}//@${origindynamic.user.name}:${origindynamic.item.description}`, origindynamic.item.pictures[0].img_src)
-                    //     } else {
-                    //         that.SendNotice("basic", `[转发动态]饼来了!`, `${dynamicInfo.content}//@${origindynamic.user.name}:${origindynamic.item.description}`);
-                    //     }
-                    // }
-                    //  else if (origindyType == 2) {
-                    //     that.SendNotice("basic", `[转发内容]饼来了!`, `套娃转发 不解析了`);
-                    // } 
-                    // else if (origindyType == 0) {
-                    //     that.SendNotice("image", `[转发视频]饼来了!${origindynamic.title}`, `${dynamicInfo.content}//@${origindynamic.owner.name}:${origindynamic.title}`, origindynamic.pic);
-                    // }
                 } else {
                     let time = dynamicInfo.time;
                     dynamicInfo = dynamicInfo.dynamicInfo.item;
@@ -228,7 +212,7 @@ let getWeibo = {
         let xhr = new XMLHttpRequest();
         that.cardlist = [];
         that.oldcardlist = Kaze.cardlist.filter(x => x.source == 1);
-        Kaze.Get(that.url, (responseText) => {
+        Kaze.Get(that.url+`&kaze=${Math.random().toFixed(3)}`, (responseText) => {
             let data = JSON.parse(responseText);
             if (data.ok == 1 && data.data != null && data.data.cards != null && data.data.cards.length > 0) {
                 data.data.cards.map(x => {
@@ -317,7 +301,7 @@ let getAnnouncement = {
         let xhr = new XMLHttpRequest();
         that.cardlist = [];
         that.oldcardlist = Kaze.cardlist.filter(x => x.source == 2);
-        Kaze.Get(that.url, (responseText) => {
+        Kaze.Get(that.url+`?kaze=${Math.random().toFixed(3)}`, (responseText) => {
             let data = JSON.parse(responseText);
             data.announceList.forEach(x => {
                 // 屏蔽几个条目 先用ID 看有没有问题
