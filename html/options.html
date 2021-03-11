@@ -11,6 +11,9 @@
 
 <body>
     <div id="body">
+        <h1>蹲饼 V1.3.1beta</h1>
+        <br />
+        <br />
         <h1>信息</h1>
         <span id="info">获取中……</span>
         <br />
@@ -18,17 +21,32 @@
         <h1>设置</h1>
         <div class="optionlist">
             <span>刷新饼频率：</span>
-            <input type="number" id="reloadtime" value="15000" placeholder="">
-            <span>（速度过快会Ban掉IP,强制大于1000）</span>
+            <input type="number" id="reloadtime" value="15" placeholder="">
+            <span>（速度过快会Ban掉IP,强制大于3秒）</span>
         </div>
         <div class="optionlist">
             <span>字体大小：</span>
             <span id="font-btnarea">
-                <span data-class='small'>小</span>
-                <span data-class='normal'>正常</span>
-                <span data-class='big'>大</span>
-                <span data-class='bigbig'>很大</span>
-                <span data-class='bigbigbig'>巨无霸</span>
+                <span class="option-input-span">
+                    <input type="radio" name="fontsize" class="fontsize" id="small" value="small">
+                    <label for="small">小</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="radio" name="fontsize" class="fontsize" id="normal" value="normal">
+                    <label for="normal">正常</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="radio" name="fontsize" class="fontsize" id="big" value="big">
+                    <label for="big">大</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="radio" name="fontsize" class="fontsize" id="bigbig" value="bigbig">
+                    <label for="bigbig">很大</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="radio" name="fontsize" class="fontsize" id="bigbigbig" value="bigbigbig">
+                    <label for="bigbigbig">巨无霸</label>
+                </span>
             </span>
         </div>
         <div class="optionlist">
@@ -36,15 +54,32 @@
             <div class="checkarea">
                 <span class="option-input-span">
                     <input type="checkbox" id="getbili" value="getbili">
-                    <label for="getbili">bilibili推送</label>
+                    <label for="getbili">bilibili接口</label>
                 </span>
                 <span class="option-input-span">
                     <input type="checkbox" id="getweibo" value="getweibo">
-                    <label for="getweibo">微博推送</label>
+                    <label for="getweibo">微博接口</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="checkbox" id="getcho3" value="getcho3">
+                    <label for="getcho3">朝陇山接口</label>
                 </span>
                 <span class="option-input-span">
                     <input type="checkbox" id="getyj" value="getyj">
-                    <label for="getyj">通讯组推送</label>
+                    <label for="getyj">通讯组接口</label>
+                </span>
+            </div>
+        </div>
+        <div class="optionlist">
+            <span>列表要图片吗？</span>
+            <div class="checkarea">
+                <span class="option-input-span">
+                    <input type="radio" name="imgshow" class="imgshow" id="imgshowtrue" value="true">
+                    <label for="imgshowtrue">要</label>
+                </span>
+                <span class="option-input-span">
+                    <input type="radio" name="imgshow" class="imgshow" id="imgshowfalse" value="false">
+                    <label for="imgshowfalse">不要</label>
                 </span>
             </div>
         </div>
@@ -90,17 +125,14 @@
         justify-content: space-between;
     }
 
-    #font-btnarea span {
-        padding: 6px 10px;
-        border: 1px solid #23ade5;
-        margin: 0 2px;
-        cursor: pointer;
-        transition: all 0.5s;
+
+    #font-btnarea{
+        display: flex;
     }
 
-    #font-btnarea span.active {
-        background: #23ade5;
-        color: #fff;
+    #font-btnarea span {
+        padding: 6px 10px;
+        margin: 0 2px;
     }
 </style>
 <script type="text/javascript" src="../JS/options.js"></script>

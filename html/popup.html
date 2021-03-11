@@ -5,171 +5,24 @@
 	<meta charset="utf-8" />
 	<title>最近动态</title>
 	<script type="text/javascript" src="../js/popup.js"></script>
+	<link rel="stylesheet" href="../style/popup.css">
 </head>
 
-<body style="width:300px;min-height:400px;background: #f5f5f5;">
+<body id="body" style="width:600px;min-height:500px;background: #f5f5f5;">
 	<div id="top">
 		<div class="title">兔兔的最近动态，不包含置顶转发和图片</div>
 		<div id="btnarea">
-			<button id="toB" class="button">去B站吃饼</button>
-			<button id="toWeibo" class="button">去微博吃饼</button>
+			<button id="toB" class="button">吃B站饼</button>
+			<button id="toWeibo" class="button">吃官博饼</button>
+			<button id="toCho3" class="button">吃朝陇山饼</button>
+			<button id="reload" class="button purple ">强制刷新</button>
 			<button id="toSetting" class="button red">设置</button>
-		</div>
-		<hr />
-		<div class="title">
-			<!-- <span style="cursor: pointer;" id="reloadbtn" title="点击强制刷新一次">动态列表</span> -->
-			<span>动态列表</span>
-		</div>
-		<div id="btnarea">
-			<button id="showB" class="button">显示B站动态</button>
-			<button id="showWeibo" class="button">显示微博动态</button>
-			<button id="showyj" class="button">显示通讯组</button>
 		</div>
 	</div>
 	<div id="title-content">
 
 	</div>
+	<div id="alert"></div>
 </body>
-<style>
-	::-webkit-scrollbar {
-		width: 0 !important
-	}
-
-	body {
-		-ms-overflow-style: none;
-		overflow: -moz-scrollbars-none;
-	}
-
-	#top {
-		padding: 5px 0;
-		position: fixed;
-		background: #fff;
-		width: 100%;
-		top: 0;
-		left: 0;
-		box-shadow: 0px 0px 10px 0px #22222285;
-	}
-
-	.title {
-		color: #23ade5;
-		width: 100%;
-		text-align: center;
-		display: flex;
-		align-items: center;
-		justify-content: space-around;
-
-	}
-
-	#btnarea {
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		width: 100%;
-	}
-
-	.button {
-		display: inline-block;
-		border-radius: 4px;
-		background-color: #23ade5;
-		border: none;
-		color: #FFFFFF;
-		text-align: center;
-		font-size: 12px;
-		padding: 6px;
-		width: 100px;
-		transition: all 0.5s;
-		cursor: pointer;
-		margin: 5px;
-		transition: all 0.5s;
-		outline: none;
-	}
-
-	.button:hover {
-		box-shadow: 0 0 15px 0px #23ade5;
-	}
-
-	.button.off {
-		background-color: #115571;
-	}
-
-	.button.off:hover {
-		box-shadow: 0 0 0 0px #23ade5;
-	}
-
-	.button.red {
-		background-color: rgb(255, 92, 124)
-	}
-
-	.button.red:hover {
-		box-shadow: 0 0 15px 0 rgb(255, 92, 124);
-	}
-
-	#title-content {
-		margin-top: 140px;
-		font-size: 14px;
-	}
-
-	#title-content.normal{
-
-	}
-
-	#title-content.small {
-		font-size: 16px;
-	}
-
-	#title-content.big {
-		font-size: 16px;
-	}
-
-	#title-content.bigbig {
-		font-size: 18px;
-	}
-
-	#title-content.bigbigbig {
-		font-size: 20px;
-	}
-
-	.card {
-		color: #222;
-		margin: 10px 0;
-		padding-bottom: 10px;
-		background: #fff;
-		padding: 10px;
-		cursor: pointer;
-		transition: box-shadow 0.5s;
-		font-size: 1em;
-	}
-
-	.card:hover {
-		box-shadow: 0 0 15px 0px rgba(34, 34, 34, 0.5);
-	}
-
-	.card:last-child {
-		border-bottom: none;
-	}
-
-	.card .head {
-		display: flex;
-		align-items: center;
-	}
-
-	.card .head img {
-		height: 30px;
-	}
-
-	.card .head .time {
-		color: #23ade5;
-		font-size: 1.1em;
-		margin-left: 20px;
-	}
-
-	.card .content {
-		margin-top: 6px;
-	}
-
-	.none {
-		display: none;
-	}
-</style>
 
 </html>

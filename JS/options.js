@@ -2,26 +2,46 @@
 let options = {
     setting: {},
     Loadoption() {
-        document.getElementById('reloadtime').value = this.setting.time;
+        document.getElementById('reloadtime').value = this.setting.time / 1000;
         document.getElementById('getbili').checked = this.setting.getbili;
         document.getElementById('getweibo').checked = this.setting.getweibo;
+        document.getElementById('getcho3').checked = this.setting.getcho3;
         document.getElementById('getyj').checked = this.setting.getyj;
-        let fontsize = this.setting.fontsize;
-        console.log(fontsize);
+        document.querySelectorAll(`.fontsize[value='${this.setting.fontsize}']`)[0].checked = true;
+        document.querySelectorAll(`.imgshow[value='${this.setting.imgshow}']`)[0].checked = true;
     },
     BindBtn() {
         document.getElementById('save').addEventListener('click',
             () => {
                 let time = document.getElementById('reloadtime').value;
-                time = time == "" ? 15000 : time;
-                if (time < 1000) {
-                    time = 1000;
+                time = time == "" ? 15 : time;
+                time = time * 1000;
+                if (time < 3000) {
+                    time = 3000;
                     document.getElementById('reloadtime').value = time;
                 }
+                //接收
                 this.setting.time = time;
                 document.querySelectorAll(`.checkarea input[type='checkbox'`).forEach(item => {
                     this.setting[item.value] = item.checked;
                 });
+                //字体
+                var fontsizeradio = document.querySelectorAll(".fontsize");
+                for (var i = 0; i < fontsizeradio.length; i++) {
+                    if (fontsizeradio[i].checked == true) {
+                        let value = fontsizeradio[i].value;
+                        this.setting.fontsize = value;
+                    }
+                }
+                //展示图片
+                var imgshowradio = document.querySelectorAll(".imgshow");
+                for (var i = 0; i < imgshowradio.length; i++) {
+                    if (imgshowradio[i].checked == true) {
+                        let value = imgshowradio[i].value;
+                        this.setting.imgshow = value;
+                    }
+                }
+
                 chrome.storage.local.set({
                     setting: this.setting,
                 }, () => {
@@ -29,20 +49,11 @@ let options = {
                     win.clearInterval(win.Kaze.setIntervalindex);
                     win.Kaze.SetInterval(time);
                     win.Kaze.setting = this.setting;
+                    win.Kaze.GetData();
                     this.ShowText("保存成功");
                 });
             });
-        document.getElementById('font-btnarea').addEventListener('click',
-            (event) => {
-                if (event.target.tagName == "SPAN") {
-                    this.setting.fontsize = event.target.dataset.class;
-                    chrome.storage.local.set({
-                        setting: this.setting,
-                    }, () => {
-                       this.ShowText("保存成功");
-                    });
-                }
-            });
+
     },
     ShowText(text) {
         document.getElementById('alertinfo').innerHTML = text
