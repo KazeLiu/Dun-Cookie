@@ -1,25 +1,23 @@
 var Kaze = {
-    //存在本地的总列表 里面有标题，内容，图片，类型
-    cardlist: [],
-    //给前台用的列表 已经排序
-    cardlistsort: [],
+    cardlistdm: {
+        weibo: [],
+        cho3: [],
+        yj: [],
+        bili: []
+    },
+    isTest: false,
     //请求次数
     dunIndex: 0,
     dunTime: new Date(),
     // 循环的标识
     setIntervalindex: 0,
-    // 加载完成标志
-    loadSuccess: {
-        weibo: false,
-        bili: false,
-        announce: false
-    },
     setting: {
         time: 15000,
         getweibo: true,
         getbili: true,
         getyj: true,
-        fontsize:'normal'
+        getcho3: true,
+        fontsize: 'normal'
     },
     SetInterval(time) {
         this.setIntervalindex = setInterval(() => {
@@ -27,6 +25,11 @@ var Kaze = {
             this.dunTime = new Date();
             this.GetData();
         }, parseInt(time));
+    },
+    RegexpWeibo(text) {
+        return text.replace(
+            /<\a.*?>|<\/a>|<\/span>|<\span.*>|<span class="surl-text">|<span class="url-icon">|<\img.*?>|全文|网页链接/g,
+            '')
     },
     SendNotice(title, message, imageUrl, time) {
         if (imageUrl) {
@@ -47,33 +50,11 @@ var Kaze = {
         }
     },
     // 蹲饼入口
-    GetData(success) {
-        getWeibo.Getdynamic(() => {
-            this.loadSuccess.weibo = true;
-            this.ReturnDate(success);
-        });
-        getBili.Getdynamic(() => {
-            this.loadSuccess.bili = true;
-            this.ReturnDate(success);
-        });
-        getAnnouncement.Getdynamic(() => {
-            this.loadSuccess.announce = true;
-            this.ReturnDate(success);
-        });
-    },
-    ReturnDate(success) {
-        let loadSuccess = this.loadSuccess;
-        if (loadSuccess.announce && loadSuccess.bili && loadSuccess.weibo) {
-            this.loadSuccess = {
-                weibo: false,
-                bili: false,
-                announce: false
-            };
-            this.cardlistsort = this.cardlist;
-            if (success) {
-                success();
-            }
-        }
+    GetData() {
+        this.setting.getweibo?getWeibo.Getdynamic():Kaze.cardlistdm.weibo = [];
+        this.setting.getbili?getBili.Getdynamic():Kaze.cardlistdm.bili = [];
+        this.setting.getyj?getYj.Getdynamic():Kaze.cardlistdm.yj = [];
+        this.setting.getcho3?getCho3.Getdynamic():Kaze.cardlistdm.cho3 = [];
     },
     Get(url, success) {
         let xhr = new XMLHttpRequest();
@@ -105,28 +86,32 @@ var Kaze = {
             let todynamic = that.cardlistsort.filter(x => x.time + "_" == id);
             if (todynamic != null && todynamic.length > 0) {
                 chrome.tabs.create({ url: todynamic[0].url });
-            }else{
+            } else {
                 alert('最近列表内没有找到该标签');
             }
         });
+        if (this.isTest) {
+            getBili.url = `test/bJson.json?host_uid=161775300`;
+            getWeibo.url = `test/wJson.json?type=uid&value=6279793937&containerid=1076036279793937`;
+            getYj.url = `test/yJson.json`;
+            getCho3.url = `test/cJson.json?type=uid&value=6441489862&containerid=1076036441489862`
+        }
     }
 }
 
 
 let getBili = {
     url: `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300`,
-    // url: `test/bJson.json`,
+
     dturl: `https://space.bilibili.com/161775300/dynamic`,
 
     // B站：动态列表
     cardlist: [],
-    oldcardlist: [],
     // bilibili版本
     Getdynamic(success) {
         let that = this;
-        let xhr = new XMLHttpRequest();
         that.cardlist = [];
-        Kaze.Get(that.url+`&kaze=${Math.random().toFixed(3)}`, (responseText) => {
+        Kaze.Get(that.url + `&kaze=${Math.random().toFixed(3)}`, (responseText) => {
             let data = JSON.parse(responseText);
             if (data.code == 0 && data.data != null && data.data.cards != null && data.data.cards.length > 0) {
                 data.data.cards.map(x => {
@@ -139,42 +124,25 @@ let getBili = {
                         url: dynamicInfo.short_link || that.dturl
                     });
                 });
-                // console.log(that.cardlist);
-                if (Kaze.setting.getbili) {
-                    that.JudgmentNew(that.cardlist);
-                }
-                that.oldcardlist = that.cardlist;
-                //重新计算组合
-                Kaze.cardlist = Kaze.cardlist.filter(x => x.source != 0);
-                Kaze.cardlist.push(...that.cardlist);
-                chrome.storage.local.set({
-                    bilicardList: that.cardlist,
-                    cardList: Kaze.cardlist
-                }, () => {
-                    if (success) {
-                        success();
-                    }
-                });
+                that.JudgmentNew(that.cardlist);
+                Kaze.cardlistdm.bili = that.cardlist;
             }
         });
     },
     GetdynamicType(dynamicInfo) {
         // 0为视频 1为动态
         let type = -1;
-        if (dynamicInfo["item"] == undefined) {
-            type = 0;
-        }
-        // 忽略转发
-        // else if (dynamicInfo["item"] != undefined && dynamicInfo["origin"] != undefined) {
-        //     type = 2;
-        // } 
-        else if (dynamicInfo["item"] != undefined) {
+        if (dynamicInfo.hasOwnProperty('item')) {
             type = 1;
+        }
+        else {
+            type = 0;
         }
         return type;
     },
     JudgmentNew(dynamiclist) {
-        if (this.oldcardlist.length > 0 && this.oldcardlist[0].time != dynamiclist[0].time) {
+        let oldcardlist = Kaze.cardlistdm.bili
+        if (oldcardlist.length > 0 && oldcardlist[0].time != dynamiclist[0].time) {
             let dynamicInfo = dynamiclist[0];
             // 0为视频 1为动态
             if (dynamicInfo.type == 0) {
@@ -200,40 +168,25 @@ let getBili = {
 
 let getWeibo = {
     url: `https://m.weibo.cn/api/container/getIndex?type=uid&value=6279793937&containerid=1076036279793937`,
-    // url: `test/wJson.json`,
+
     dturl: `https://weibo.com/arknights`,
 
     // 微博：动态列表
     cardlist: [],
-    oldcardlist: [],
     // 微博
     Getdynamic(success) {
         let that = this;
-        let xhr = new XMLHttpRequest();
         that.cardlist = [];
-        that.oldcardlist = Kaze.cardlist.filter(x => x.source == 1);
-        Kaze.Get(that.url+`&kaze=${Math.random().toFixed(3)}`, (responseText) => {
+        Kaze.Get(that.url + `&kaze=${Math.random().toFixed(3)}`, (responseText) => {
             let data = JSON.parse(responseText);
             if (data.ok == 1 && data.data != null && data.data.cards != null && data.data.cards.length > 0) {
                 data.data.cards.map(x => {
-                    //删除置顶 x.mblog.title != undefined
-                    // x.mblog.title == undefined
-                    if (x.mblog != undefined && x.mblog.title == undefined) {
+                    if (x.hasOwnProperty('mblog') && !x.mblog.hasOwnProperty('title')) {
                         let dynamicInfo = x.mblog;
-                        // 处理html
-                        let process_dynamic = '';
-                        try {
-                            let temp = dynamicInfo.text.split('<br />').splice(1, dynamicInfo.text.length);
-                            temp[temp.length - 1] = temp[temp.length - 1].split('<a href')[0];
-                            process_dynamic = temp.join('<br/>');
-                        } catch (error) {
-                            process_dynamic = dynamicInfo.text;
-
-                        }
                         that.cardlist.push({
                             time: Math.floor(new Date(dynamicInfo.created_at).getTime() / 1000),
                             dynamicInfo: dynamicInfo.text,
-                            text: process_dynamic,
+                            text: Kaze.RegexpWeibo(dynamicInfo.text),
                             image: dynamicInfo.bmiddle_pic || dynamicInfo.original_pic,
                             type: that.GetdynamicType(dynamicInfo),
                             source: 1,
@@ -242,23 +195,9 @@ let getWeibo = {
 
                     }
                 });
-                // console.log(that.cardlist);
                 // 判定是否是新的
-                if (Kaze.setting.getweibo) {
-                    that.JudgmentNew(that.cardlist);
-                }
-                that.oldcardlist = that.cardlist;
-                //重新计算组合并保存
-                Kaze.cardlist = Kaze.cardlist.filter(x => x.source != 1);
-                Kaze.cardlist.push(...that.cardlist);
-                chrome.storage.local.set({
-                    weibocardList: that.cardlist,
-                    cardList: Kaze.cardlist
-                }, () => {
-                    if (success) {
-                        success();
-                    }
-                });
+                that.JudgmentNew(that.cardlist);
+                Kaze.cardlistdm.weibo = that.cardlist;
             }
         });
     },
@@ -278,7 +217,8 @@ let getWeibo = {
         return type;
     },
     JudgmentNew(dynamiclist) {
-        if (this.oldcardlist.length > 0 && this.oldcardlist[0].time != dynamiclist[0].time) {
+        let oldcardlist = Kaze.cardlistdm.weibo;
+        if (oldcardlist.length > 0 && oldcardlist[0].time != dynamiclist[0].time) {
             if (dynamiclist[0].image) {
                 Kaze.SendNotice("【微博】喂公子吃饼！", dynamiclist[0].text.split('<br/>').join(''), dynamiclist[0].image, dynamiclist[0].time);
             }
@@ -289,19 +229,15 @@ let getWeibo = {
     }
 }
 
-let getAnnouncement = {
+let getYj = {
     url: `https://ak-fs.hypergryph.com/announce/IOS/announcement.meta.json`,
-    // url: `test/yJson.json`,
     // 通讯录：动态列表
     cardlist: [],
-    oldcardlist: [],
     // 通讯录
     Getdynamic(success) {
         let that = this;
-        let xhr = new XMLHttpRequest();
         that.cardlist = [];
-        that.oldcardlist = Kaze.cardlist.filter(x => x.source == 2);
-        Kaze.Get(that.url+`?kaze=${Math.random().toFixed(3)}`, (responseText) => {
+        Kaze.Get(that.url + `?kaze=${Math.random().toFixed(3)}`, (responseText) => {
             let data = JSON.parse(responseText);
             data.announceList.forEach(x => {
                 // 屏蔽几个条目 先用ID 看有没有问题
@@ -316,27 +252,77 @@ let getAnnouncement = {
                 }
             });
             // 判定是否是新的
-            if (Kaze.setting.getyj) {
-                that.JudgmentNew(that.cardlist);
-            }
+            that.JudgmentNew(that.cardlist);
+            Kaze.cardlistdm.yj = that.cardlist;
 
-            that.oldcardlist = that.cardlist;
-            //重新计算组合并保存
-            Kaze.cardlist = Kaze.cardlist.filter(x => x.source != 2);
-            Kaze.cardlist.push(...that.cardlist);
-            chrome.storage.local.set({
-                AnnouncementList: that.cardlist,
-                cardList: Kaze.cardlist
-            }, () => {
-                if (success) {
-                    success();
-                }
-            });
         });
     },
     JudgmentNew(dynamiclist) {
-        if (this.oldcardlist.length > 0 && this.oldcardlist[0].announceId != dynamiclist[0].announceId) {
+        let oldcardlist = Kaze.cardlistdm.yj;
+        if (oldcardlist.length > 0 && oldcardlist[0].announceId != dynamiclist[0].announceId) {
             Kaze.SendNotice("【制作组通讯】喂公子吃饼！", dynamiclist[0].dynamicInfo, null, dynamiclist[0].time);
+        }
+    }
+}
+
+let getCho3 = {
+    url: `https://m.weibo.cn/api/container/getIndex?type=uid&value=6441489862&containerid=1076036441489862`,
+    dturl: `https://weibo.com/arknights`,
+
+    // 微博：动态列表
+    cardlist: [],
+    // 微博
+    Getdynamic(success) {
+        let that = this;
+        that.cardlist = [];
+        Kaze.Get(that.url + `&kaze=${Math.random().toFixed(3)}`, (responseText) => {
+            let data = JSON.parse(responseText);
+            if (data.ok == 1 && data.data != null && data.data.cards != null && data.data.cards.length > 0) {
+                data.data.cards.map(x => {
+                    if (x.hasOwnProperty('mblog') && !x.mblog.hasOwnProperty('title')) {
+                        let dynamicInfo = x.mblog;
+                        that.cardlist.push({
+                            time: Math.floor(new Date(dynamicInfo.created_at).getTime() / 1000),
+                            dynamicInfo: dynamicInfo.text,
+                            text: Kaze.RegexpWeibo(dynamicInfo.text),
+                            image: dynamicInfo.bmiddle_pic || dynamicInfo.original_pic,
+                            type: that.GetdynamicType(dynamicInfo),
+                            source: 3,
+                            url: x.scheme
+                        });
+
+                    }
+                });
+                // 判定是否是新的
+                that.JudgmentNew(that.cardlist);
+                Kaze.cardlistdm.cho3 = that.cardlist;
+            }
+        });
+    },
+    GetdynamicType(dynamicInfo) {
+        // 0为视频 1为动态
+        let type = -1;
+        try {
+            if (dynamicInfo.page_info.type == "video") {
+                type = 0;
+            }
+            else {
+                type = 1;
+            }
+        } catch (error) {
+
+        }
+        return type;
+    },
+    JudgmentNew(dynamiclist) {
+        let oldcardlist = Kaze.cardlistdm.cho3;
+        if (oldcardlist.length > 0 && oldcardlist[0].time != dynamiclist[0].time) {
+            if (dynamiclist[0].image) {
+                Kaze.SendNotice("【微博】喂公子吃饼！", dynamiclist[0].text.split('<br/>').join(''), dynamiclist[0].image, dynamiclist[0].time);
+            }
+            else {
+                Kaze.SendNotice("【微博】喂公子吃饼！", dynamiclist[0].text.split('<br/>').join(''), null, dynamiclist[0].time);
+            }
         }
     }
 }

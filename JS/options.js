@@ -5,15 +5,13 @@ let options = {
         document.getElementById('reloadtime').value = this.setting.time;
         document.getElementById('getbili').checked = this.setting.getbili;
         document.getElementById('getweibo').checked = this.setting.getweibo;
+        document.getElementById('getcho3').checked = this.setting.getcho3;
         document.getElementById('getyj').checked = this.setting.getyj;
         console.log(this.setting);
         var radioObj = document.querySelectorAll(`.fontsize[value='${this.setting.fontsize}']`);
         radioObj[0].checked = true;
-
     },
     BindBtn() {
-
-
         document.getElementById('save').addEventListener('click',
             () => {
                 let time = document.getElementById('reloadtime').value;
@@ -42,6 +40,7 @@ let options = {
                     win.clearInterval(win.Kaze.setIntervalindex);
                     win.Kaze.SetInterval(time);
                     win.Kaze.setting = this.setting;
+                    win.Kaze.GetData();
                     this.ShowText("保存成功");
                 });
             });

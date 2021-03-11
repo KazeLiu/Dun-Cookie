@@ -30,12 +30,21 @@
 > 1. 添加选择字体大小的功能
 > 2. 添加弹窗点击直接跳转的功能
 
+## V1.3.0更新内容
+> 1. 修复字体大小的bug
+> 2. 添加朝陇山微博源
+> 3. 过滤数据的方法改为源数据过滤而非屏蔽数据
+> 4. 调整界面，界面拉大，按钮颜色调整
+> 5. 微博文字提取改为正则提取，以后不会报错，感谢[@lwt-414](https://github.com/lwt-414)提供的正则表达式
+> 6. 注意：吃朝陇山饼和强制刷新没有实现，敬请期待
+
 # 安装方法
 ## Chrome安装方法
 > - [Chrome应用商店](https://chrome.google.com/webstore/detail/%E8%B9%B2%E9%A5%BC/gblmdllhbodefkmimbcjpflhjneagkkd?hl=zh-CN&authuser=0)
 > - 下载zip通过开发者模式加载已解压的扩展程序
 > 
 ## Firefox安装方法
+    正在想办法注册火狐开发者
 > 1. 先解压到任意文件夹
 > 2. 地址栏输入 about:debugging ，回车
 > 3. 点击“此Firefox”->临时载入扩展

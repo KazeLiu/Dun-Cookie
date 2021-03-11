@@ -1,12 +1,7 @@
 ﻿window.onload = function () {
     let win = chrome.extension.getBackgroundPage();
-    //顺便刷新一下后台
-    // win.Kaze.GetData(() => {
-
-    // });
-
-    let cardlist = [];
-    cardlist = win.Kaze.cardlistsort;
+    let { weibo = [], cho3 = [], yj = [], bili = [] } = win.Kaze.cardlistdm;
+    let cardlist = [...weibo, ...cho3, ...yj, ...bili];
     cardlist.sort((x, y) => x.time < y.time ? 1 : -1);
     Kaze.ShowList(cardlist);
     let card = document.querySelectorAll('.card');
@@ -27,24 +22,6 @@
                 case 'toWeibo':
                     chrome.tabs.create({ url: 'https://weibo.com/arknights' });
                     break;
-                case 'showB':
-                    event.target.classList.toggle('off');
-                    document.querySelectorAll('.card[data-type="0"]').forEach(item => {
-                        item.classList.toggle('none');
-                    });
-                    break;
-                case 'showWeibo':
-                    event.target.classList.toggle('off');
-                    document.querySelectorAll('.card[data-type="1"]').forEach(item => {
-                        item.classList.toggle('none');
-                    });
-                    break;
-                case 'showyj':
-                    event.target.classList.toggle('off');
-                    document.querySelectorAll('.card[data-type="2"]').forEach(item => {
-                        item.classList.toggle('none');
-                    });
-                    break;
                 case 'toSetting':
                     var urlToOpen = chrome.extension.getURL('html/options.html');
                     chrome.tabs.create({
@@ -56,25 +33,10 @@
         })
     });
 
-    // 根据设置隐藏部分列表
-    // 临时方法  因为异步
-    setTimeout(() => {
-        chrome.storage.local.get(['setting'], result => {
-            let setting = result.setting;
-            if (!setting.getbili) {
-                document.getElementById('showB').click();
-            }
-            if (!setting.getweibo) {
-                document.getElementById('showWeibo').click();
-            }
-            if (!setting.getyj) {
-                document.getElementById('showyj').click();
-            }
-        });
-    }, 100);
     chrome.storage.local.get(['setting'], result => {
         let setting = result.setting;
         document.getElementById('title-content').classList.add(setting.fontsize);
+        document.getElementById('body').style.width = 600 + 'px';
     });
 }
 let Kaze = {
@@ -82,6 +44,7 @@ let Kaze = {
         if (cardlist != null && cardlist.length > 0) {
             let html = '';
             cardlist.map(x => {
+                //0 b服 1微博 2通讯组 3朝陇山
                 if (x.source == 0) {
                     if (x.type == 0) {
                         html += `<div class="card" data-type="0" data-url="${x.url}">
@@ -89,7 +52,8 @@ let Kaze = {
                             <img src="../image/bili.ico">
                             <span class="time">${common.TimespanTotime(x.time)}</span>
                         </div>
-                        <div class="content">${x.dynamicInfo.title}</div>
+                        <div class="content">
+                        <div>${x.dynamicInfo.title}</div><div><img src=""></div></div>
                             </div>`;
                     } else if (x.type == 1) {
                         let dynamicInfo = '';
@@ -104,30 +68,18 @@ let Kaze = {
                             <img src="../image/bili.ico">
                                 <span class="time">${common.TimespanTotime(x.time)}</span>
                             </div>
-                        <div class="content">${dynamicInfo}</div>
+                        <div class="content"><div>${dynamicInfo}</div><div><img src=""></div></div>
                             </div>`;
                     }
                 }
                 else if (x.source == 1) {
-                    // 处理html
-                    if (x.type == 0) {
-                        html += `<div class="card" data-type="1" data-url="${x.url}">
-                        <div class="head">
-                        <img src="../image/weibo.ico">
-                            <span class="time">${common.TimespanTotime(x.time)}</span>
-                        </div>
-                        <div class="content">【视频资源，无法播放，请去微博动态查看】</div>
-                            </div>`;
-
-                    } else if (x.type == 1) {
-                        html += `<div class="card" data-type="1"   data-url="${x.url}">
-                            <div class="head">
-                            <img src="../image/weibo.ico">
-                            <span class="time">${common.TimespanTotime(x.time)}</span>
-                        </div>
-                        <div class="content">${x.text}</div>
-                            </div>`;
-                    }
+                    html += `<div class="card" data-type="1"   data-url="${x.url}">
+                    <div class="head">
+                    <img src="../image/weibo.ico">
+                    <span class="time">${common.TimespanTotime(x.time)}</span>
+                </div>
+                <div class="content"> <div>${x.text}</div><div><img src=""></div></div>
+                    </div>`;
                 }
                 else if (x.source == 2) {
                     html += `<div class="card" data-type="2"  data-url="${x.url}" >
@@ -137,6 +89,16 @@ let Kaze = {
                         </div>
                         <div class="content">${x.dynamicInfo}</div>
                             </div>`;
+                }
+                else if (x.source == 3) {
+                    html += `<div class="card" data-type="1"   data-url="${x.url}">
+                            <div class="head">
+                            <img src="../image/cho3.jpg">
+                            <span class="time">${common.TimespanTotime(x.time)}</span>
+                        </div>
+                        <div class="content"><div>${x.text}</div><div><img src=""></div></div>
+                            </div>`;
+
                 }
             });
             document.getElementById('title-content').innerHTML = html;
