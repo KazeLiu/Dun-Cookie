@@ -130,39 +130,61 @@ let getBili = {
         let that = this;
         that.cardlist = [];
         Kaze.Get(that.url + `&kaze=${Math.random().toFixed(3)}`, (responseText) => {
-            try {
-                let data = JSON.parse(responseText);
-                if (data.code == 0 && data.data != null && data.data.cards != null && data.data.cards.length > 0) {
-                    data.data.cards.map(x => {
-                        let dynamicInfo = JSON.parse(x.card);
-                        that.cardlist.push({
-                            time: x.desc.timestamp,
-                            dynamicInfo: dynamicInfo.item.description || dynamicInfo.item.content,
-                            image: dynamicInfo.item.hasOwnProperty('pictures') && dynamicInfo.item.pictures.length > 0 ? dynamicInfo.item.pictures[0].img_src : undefined,
-                            type: that.GetdynamicType(dynamicInfo),
-                            source: 0,
-                            url: dynamicInfo.short_link || that.dturl
-                        });
+            let data = JSON.parse(responseText);
+            if (data.code == 0 && data.data != null && data.data.cards != null && data.data.cards.length > 0) {
+                data.data.cards.map(x => {
+                    let dynamicInfo = JSON.parse(x.card);
+                    that.cardlist.push({
+                        time: x.desc.timestamp,
+                        dynamicInfo: that.GetdynamicInfo(dynamicInfo),
+                        image: that.GetdynamicImage(dynamicInfo),
+                        type: that.GetdynamicType(dynamicInfo),
+                        source: 0,
+                        url: dynamicInfo.short_link || that.dturl
                     });
-                    that.cardlist.sort((x, y) => x.time < y.time ? 1 : -1);
-                    that.JudgmentNew(that.cardlist);
-                    Kaze.cardlistdm.bili = that.cardlist;
-                }
-            } catch (error) {
+                });
+                that.cardlist.sort((x, y) => x.time < y.time ? 1 : -1);
+                that.JudgmentNew(that.cardlist);
+                Kaze.cardlistdm.bili = that.cardlist;
             }
+
         }
             , { name: "Bilibili动态", type: 'getbili' });
     },
-    GetdynamicType(dynamicInfo) {
+    GetdynamicType(dynamic) {
         // 0为视频 1为动态
         let type = -1;
-        if (dynamicInfo.hasOwnProperty('item')) {
+        if (dynamic.hasOwnProperty('item')) {
             type = 1;
         }
         else {
             type = 0;
         }
         return type;
+    },
+    GetdynamicInfo(dynamic) {
+        // 0为视频 1为动态
+        let dynamicInfo = '';
+        if (dynamic.hasOwnProperty('item')) {
+            dynamicInfo = dynamic.item.description || dynamic.item.content;
+        }
+        else {
+            dynamicInfo = dynamic.desc || dynamic.title;
+        }
+        return dynamicInfo;
+    },
+    GetdynamicImage(dynamic) {
+        // 0为视频 1为动态
+        let dynamicInfo = null;
+        if (dynamic.hasOwnProperty('item')) {
+            if (dynamic.item.hasOwnProperty('pictures')) {
+                dynamicInfo = dynamic.item.pictures.length > 0 ? dynamic.item.pictures[0].img_src : null;
+            }
+        }
+        else {
+            dynamicInfo = dynamic.pic || dynamic.pic;
+        }
+        return dynamicInfo;
     },
     JudgmentNew(dynamiclist) {
         let oldcardlist = Kaze.cardlistdm.bili
@@ -223,10 +245,10 @@ let getWeibo = {
             }
         }, { name: "官方微博", type: 'getweibo' });
     },
-    GetdynamicType(dynamicInfo) {
+    GetdynamicType(dynamic) {
         // 0为视频 1为动态
         let type = -1;
-        if (dynamicInfo.hasOwnProperty("page_info") && dynamicInfo.page_info.hasOwnProperty('type') && dynamicInfo.page_info.type == "video") {
+        if (dynamic.hasOwnProperty("page_info") && dynamic.page_info.hasOwnProperty('type') && dynamic.page_info.type == "video") {
             type = 0;
         }
         else {
@@ -336,10 +358,10 @@ let getCho3 = {
             }
         }, { name: "朝陇山微博", type: 'getcho3' });
     },
-    GetdynamicType(dynamicInfo) {
+    GetdynamicType(dynamic) {
         // 0为视频 1为动态
         let type = -1;
-        if (dynamicInfo.hasOwnProperty("page_info") && dynamicInfo.page_info.hasOwnProperty('type') && dynamicInfo.page_info.type == "video") {
+        if (dynamic.hasOwnProperty("page_info") && dynamic.page_info.hasOwnProperty('type') && dynamic.page_info.type == "video") {
             type = 0;
         }
         else {
