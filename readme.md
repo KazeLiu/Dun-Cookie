@@ -45,6 +45,11 @@
 > 2. 设置调整为秒，不用毫秒了，且强制时间调整为大于3秒
 > 3. 列表开启了动态刷新 刷新时间为饼刷新频率的一半
 
+## V1.3.2
+> 1. 关闭上一个版本开启的测试模式
+> 2. 添加判定，如果发布时间小于公布时间则不算新推送
+
+
 # 安装方法
 ## Chrome安装方法
 > - [Chrome应用商店](https://chrome.google.com/webstore/detail/%E8%B9%B2%E9%A5%BC/gblmdllhbodefkmimbcjpflhjneagkkd?hl=zh-CN&authuser=0)

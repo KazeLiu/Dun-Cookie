@@ -63,6 +63,7 @@ let options = {
     },
     ChangeInfo() {
         let win = chrome.extension.getBackgroundPage();
+        debugger;
         document.getElementById('info').innerHTML = `已为你蹲饼<span style="color:#23ade5">${win.Kaze.dunIndex}</span>次`;
         setTimeout(() => {
             this.ChangeInfo();
