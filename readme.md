@@ -52,6 +52,9 @@
 ## V1.3.3
 > 1. 修复B站视频推送解析失败的BUG
 
+## V1.3.4
+> 1. 通讯组内容添加根据ID排序 修复疯狂弹窗通讯组的问题
+
 # 安装方法
 ## Chrome安装方法
 > - [Chrome应用商店](https://chrome.google.com/webstore/detail/%E8%B9%B2%E9%A5%BC/gblmdllhbodefkmimbcjpflhjneagkkd?hl=zh-CN&authuser=0)
