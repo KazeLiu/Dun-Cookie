@@ -190,7 +190,7 @@ let getBili = {
         let oldcardlist = Kaze.cardlistdm.bili
         if (oldcardlist.length > 0 && oldcardlist[0].time != dynamiclist[0].time && dynamiclist[0].time > oldcardlist[0].time) {
             let dynamicInfo = dynamiclist[0];
-            console.log('b', new Date(), dynamicInfo, oldcardlist[0]);
+            console.log('B站', new Date(), dynamicInfo, oldcardlist[0]);
             // 0为视频 1为动态
             if (dynamicInfo.type == 0) {
                 Kaze.SendNotice(`【B站】喂公子吃饼!`, `${dynamicInfo.dynamicInfo.replace(/\n/g, "")}`, dynamicInfo.image, dynamicInfo.time)
@@ -241,7 +241,6 @@ let getWeibo = {
                     Kaze.cardlistdm.weibo = that.cardlist;
                 }
             } catch (error) {
-                debugger;
             }
         }, { name: "官方微博", type: 'getweibo' });
     },
@@ -259,7 +258,7 @@ let getWeibo = {
     JudgmentNew(dynamiclist) {
         let oldcardlist = Kaze.cardlistdm.weibo;
         if (oldcardlist.length > 0 && oldcardlist[0].time != dynamiclist[0].time && dynamiclist[0].time > oldcardlist[0].time) {
-            console.log('w', new Date(), dynamiclist[0], oldcardlist[0]);
+            console.log('官方微博', new Date(), dynamiclist[0], oldcardlist[0]);
             if (dynamiclist[0].image) {
                 Kaze.SendNotice("【微博】喂公子吃饼！", dynamiclist[0].text.split('<br />').join(''), dynamiclist[0].image, dynamiclist[0].time);
             }
@@ -302,6 +301,9 @@ let getYj = {
                         });
                     }
                 });
+                that.cardlist.sort((x, y) => {
+                    return y.announceId - x.announceId;
+                });
                 // 判定是否是新的
                 that.JudgmentNew(that.cardlist);
                 Kaze.cardlistdm.yj = that.cardlist;
@@ -313,7 +315,9 @@ let getYj = {
     },
     JudgmentNew(dynamiclist) {
         let oldcardlist = Kaze.cardlistdm.yj;
-        if (oldcardlist.length > 0 && oldcardlist[0].announceId != dynamiclist[0].announceId) {
+        if (oldcardlist.length > 0 && oldcardlist[0].announceId != dynamiclist[0].announceId &&
+            dynamiclist[0].announceId > oldcardlist[0].announceId) {
+            console.log('通讯组', new Date(), dynamiclist[0], oldcardlist[0]);
             Kaze.SendNotice("【制作组通讯】喂公子吃饼！", dynamiclist[0].text, null, dynamiclist[0].time);
         }
     }
@@ -372,7 +376,7 @@ let getCho3 = {
     JudgmentNew(dynamiclist) {
         let oldcardlist = Kaze.cardlistdm.cho3;
         if (oldcardlist.length > 0 && oldcardlist[0].time != dynamiclist[0].time && dynamiclist[0].time > oldcardlist[0].time) {
-            console.log('w', new Date(), dynamiclist[0], oldcardlist[0]);
+            console.log('朝陇山微博', new Date(), dynamiclist[0], oldcardlist[0]);
             if (dynamiclist[0].image) {
                 Kaze.SendNotice("【朝陇山】喂公子吃饼！", dynamiclist[0].text.split('<br />').join(''), dynamiclist[0].image, dynamiclist[0].time);
             }
