@@ -286,7 +286,7 @@ let getYj = {
     Getdynamic() {
         let that = this;
         that.cardlist = [];
-        Kaze.Get(that.url + `?kaze=${Math.random().toFixed(3)}`, (responseText) => {
+        Kaze.Get(that.url , (responseText) => {
             try {
                 let data = JSON.parse(responseText);
                 data.announceList.forEach(x => {

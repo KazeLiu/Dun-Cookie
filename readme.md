@@ -55,6 +55,9 @@
 ## V1.3.4
 > 1. 通讯组内容添加根据ID排序 应该能修复疯狂弹窗通讯组的问题
 
+## V1.3.5
+> 1. 通讯组内容发现是因为url带参数导致周期性的获取不到最新消息而疯狂弹窗 已修复
+
 # 安装方法
 ## Chrome安装方法
 > - [Chrome应用商店](https://chrome.google.com/webstore/detail/%E8%B9%B2%E9%A5%BC/gblmdllhbodefkmimbcjpflhjneagkkd?hl=zh-CN&authuser=0)
