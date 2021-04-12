@@ -1,13 +1,9 @@
 # 鹰角蹲饼器
 
-## 用于实时抓取兔兔发的动态（测试阶段）
+## 用于实时抓取兔兔发的动态
+ ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/2.png)
  ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/3.jpg)
  ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/4.jpg)
-
-
-    刷新时间，单位是毫秒，速度过快可能被ban掉IP哦
-    默认刷新时间30000毫秒（半分钟）
-    
 
     有什么建议只管提，只要我写得出来
 
@@ -76,6 +72,8 @@
 > 2. 地址栏输入 about:debugging ，回车
 > 3. 点击“此Firefox”->临时载入扩展
 > 4. 随便在解压后的插件文件夹里面点开任意文件即可加载
+
+    如果有想支持我的火狐开发者，请联系我使用您的开发者商家火狐应用商店
 
 # 注意事项
     只支持Chrome 不知道其他的浏览器安装会怎么样
