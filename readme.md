@@ -1,8 +1,8 @@
 # 鹰角蹲饼器
 
 ## 用于实时抓取兔兔发的动态（测试阶段）
- ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/1.png)
- ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/2.png)
+ ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/3.jpg)
+ ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/4.jpg)
 
 
     刷新时间，单位是毫秒，速度过快可能被ban掉IP哦
@@ -62,6 +62,8 @@
 > 1. 添加一拾山接口
 > 2. 统一了微博端获取数据的方法
 > 3. 添加常驻后台的功能
+> 4. 已知问题：无法显示微博表情【前期不予以处理】
+
 
 # 安装方法
 ## Chrome安装方法
