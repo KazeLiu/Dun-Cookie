@@ -64,7 +64,7 @@ let Kaze = {
                     html += `<div class="card" data-type="2"  data-url="${x.url}" >
                             <div class="head">
                             <img src="../image/mrfz.ico">
-                            <span class="time">${common.TimespanTotime(x.time, 2)}</span>
+                            <span class="time">公布日置顶 ${common.TimespanTotime(x.time, 2)}</span>
                         </div>
                         <div class="content"><div>${x.text}</div><div class="imgarea ${x.image ? '' : 'hide'}"><img src="${x.image ? x.image : ''}"></div></div>
                             </div>`;

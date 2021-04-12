@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-04-12 22:11:43
+ * @LastEditTime: 2021-04-12 22:45:41
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \Dun-Cookie\JS\options.js
+ */
 
 let options = {
     setting: {},
@@ -28,6 +36,7 @@ let options = {
                 document.querySelectorAll(`.checkarea input[type='checkbox']`).forEach(item => {
                     this.setting[item.value] = item.checked;
                 });
+                
                 //字体
                 var fontsizeradio = document.querySelectorAll(".fontsize");
                 for (var i = 0; i < fontsizeradio.length; i++) {

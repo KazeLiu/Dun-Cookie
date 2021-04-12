@@ -20,6 +20,7 @@ var Kaze = {
         getbili: true,
         getyj: true,
         getcho3: true,
+        getys3: true,
         fontsize: 'normal',
         imgshow: true
     },
@@ -97,9 +98,10 @@ var Kaze = {
         });
         if (this.isTest) {
             getBili.url = `test/bJson.json?host_uid=161775300`;
-            getWeibo.url = `test/wJson.json?type=uid&value=6279793937&containerid=1076036279793937`;
+            getWeibo.opt.url = `test/wJson.json?type=uid&value=6279793937&containerid=1076036279793937`;
             getYj.url = `test/yJson.json`;
-            getCho3.url = `test/cJson.json?type=uid&value=6441489862&containerid=1076036441489862`
+            getCho3.opt.url = `test/cJson.json?type=uid&value=6441489862&containerid=1076036441489862`;
+            getYs3.opt.url = `test/ysJson.json?type=uid&value=6441489862&containerid=1076036441489862`;
         }
     }
 }
@@ -138,7 +140,7 @@ let getAndProcessWeiboData = {
                     });
                     // 判定是否是新的
                     that.cardlist[opt.dataName].sort((x, y) => x.time < y.time ? 1 : -1);
-                    let hasNew = that.judgmentNew(that.cardlist[opt.dataName], opt.dataName);
+                    let hasNew = that.judgmentNew(that.cardlist[opt.dataName], opt);
                     Kaze.cardlistdm[opt.dataName] = that.cardlist[opt.dataName];
                     // console.log( that.cardlist[opt.dataName]);
                     if (typeof opt.success == 'function') {
@@ -160,15 +162,16 @@ let getAndProcessWeiboData = {
         }
         return type;
     },
-    judgmentNew(dynamiclist, dataName) {
-        let oldcardlist = Kaze.cardlistdm[dataName];
+    judgmentNew(dynamiclist, opt) {
+        let oldcardlist = Kaze.cardlistdm[opt.dataName];
+        console.log(oldcardlist,dynamiclist,opt.dataName)
         if (oldcardlist.length > 0 && oldcardlist[0].time != dynamiclist[0].time && dynamiclist[0].time > oldcardlist[0].time) {
-            console.log(this.opt.title, new Date(), dynamiclist[0], oldcardlist[0]);
+            console.log(opt.title, new Date(), dynamiclist[0], oldcardlist[0]);
             if (dynamiclist[0].image) {
-                Kaze.SendNotice(`【${this.opt.title}】喂公子吃饼！`, dynamiclist[0].text.split('<br />').join(''), dynamiclist[0].image, dynamiclist[0].time);
+                Kaze.SendNotice(`【${opt.title}】喂公子吃饼！`, dynamiclist[0].text.split('<br />').join(''), dynamiclist[0].image, dynamiclist[0].time);
             }
             else {
-                Kaze.SendNotice(`【${this.opt.title}】喂公子吃饼！`, dynamiclist[0].text.split('<br />').join(''), null, dynamiclist[0].time);
+                Kaze.SendNotice(`【${opt.title}】喂公子吃饼！`, dynamiclist[0].text.split('<br />').join(''), null, dynamiclist[0].time);
             }
             return true
         } else {
@@ -295,8 +298,8 @@ let getYj = {
                     // 屏蔽几个条目 先用ID 看有没有问题
                     if (!(x.announceId == 94 || x.announceId == 98 || x.announceId == 192 || x.announceId == 95 || x.announceId == 97)) {
                         that.cardlist.push({
-                            time: Math.floor(new Date(`${(new Date().getFullYear())}/${x.month}/${x.day} 00:00:00`).getTime() / 1000),
-                            text: x.title,
+                            time: Math.floor(new Date(`${(new Date().getFullYear())}/${x.month}/${x.day} 23:59:59`).getTime() / 1000),
+                            text: `${x.title}`,
                             announceId: x.announceId,
                             source: 2,
                             url: x.webUrl
@@ -340,7 +343,6 @@ let getCho3 = {
 
 let getYs3 = {
     opt: {
-        
         url: 'https://m.weibo.cn/api/container/getIndex?type=uid&value=7506039414&containerid=1076037506039414',
         dturl: 'https://weibo.com/u/7506039414',
         title: '一拾山',
