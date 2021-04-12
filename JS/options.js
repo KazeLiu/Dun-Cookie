@@ -2,11 +2,14 @@
 let options = {
     setting: {},
     Loadoption() {
+        let win = chrome.extension.getBackgroundPage();
+        document.getElementById('version').innerHTML = `蹲饼 V${win.Kaze.version}`;
         document.getElementById('reloadtime').value = this.setting.time / 1000;
         document.getElementById('getbili').checked = this.setting.getbili;
         document.getElementById('getweibo').checked = this.setting.getweibo;
         document.getElementById('getcho3').checked = this.setting.getcho3;
         document.getElementById('getyj').checked = this.setting.getyj;
+        document.getElementById('getys3').checked = this.setting.getys3;
         document.querySelectorAll(`.fontsize[value='${this.setting.fontsize}']`)[0].checked = true;
         document.querySelectorAll(`.imgshow[value='${this.setting.imgshow}']`)[0].checked = true;
     },
@@ -22,7 +25,7 @@ let options = {
                 }
                 //接收
                 this.setting.time = time;
-                document.querySelectorAll(`.checkarea input[type='checkbox'`).forEach(item => {
+                document.querySelectorAll(`.checkarea input[type='checkbox']`).forEach(item => {
                     this.setting[item.value] = item.checked;
                 });
                 //字体
@@ -63,7 +66,6 @@ let options = {
     },
     ChangeInfo() {
         let win = chrome.extension.getBackgroundPage();
-        debugger;
         document.getElementById('info').innerHTML = `已为你蹲饼<span style="color:#23ade5">${win.Kaze.dunIndex}</span>次`;
         setTimeout(() => {
             this.ChangeInfo();

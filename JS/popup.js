@@ -1,4 +1,6 @@
 ﻿window.onload = function () {
+    let win = chrome.extension.getBackgroundPage();
+    document.getElementById('title').innerHTML = `蹲饼 V${win.Kaze.version} 兔兔的最近动态，不包含置顶和转发`;
     let cardlist = Kaze.GetbackgroundData();
     Kaze.ShowList(cardlist);
     Kaze.BindBtn();
@@ -28,7 +30,7 @@ let Kaze = {
         if (cardlist != null && cardlist.length > 0) {
             let html = '';
             cardlist.map(x => {
-                //0 b服 1微博 2通讯组 3朝陇山
+                //0 b服 1微博 2通讯组 3朝陇山 4一拾山
                 if (x.source == 0) {
                     if (x.type == 0) {
                         html += `<div class="card" data-type="0" data-url="${x.url}">
@@ -77,6 +79,15 @@ let Kaze = {
                             </div>`;
 
                 }
+                else if (x.source == 4) {
+                    html += `<div class="card" data-type="4"   data-url="${x.url}">
+                    <div class="head">
+                    <img src="../image/ys3.jpg">
+                    <span class="time">${common.TimespanTotime(x.time)}</span>
+                </div>
+                <div class="content"> <div>${x.text}</div><div class="imgarea ${x.image ? '' : 'hide'}"><img src="${x.image ? x.image : ''}"></div></div>
+                    </div>`;
+                }
             });
             document.getElementById('title-content').innerHTML = html;
         }
@@ -89,8 +100,8 @@ let Kaze = {
     },
     GetbackgroundData() {
         let win = chrome.extension.getBackgroundPage();
-        let { weibo = [], cho3 = [], yj = [], bili = [] } = win.Kaze.cardlistdm;
-        let cardlist = [...weibo, ...cho3, ...yj, ...bili];
+        let { weibo = [], cho3 = [], yj = [], bili = [], ys3 = [] } = win.Kaze.cardlistdm;
+        let cardlist = [...weibo, ...cho3, ...yj, ...bili, ...ys3];
         cardlist.sort((x, y) => x.time < y.time ? 1 : -1);
         return cardlist;
     },
@@ -109,6 +120,9 @@ let Kaze = {
                         break;
                     case 'toCho3':
                         chrome.tabs.create({ url: 'https://weibo.com/u/6441489862' });
+                        break;
+                    case 'toYs3':
+                        chrome.tabs.create({ url: 'https://weibo.com/u/7506039414' });
                         break;
                     case 'reload':
                         if (!!![...document.getElementById('reload').classList].find(x => x == 'disable')) {
