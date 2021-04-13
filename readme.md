@@ -81,11 +81,15 @@
 
 > 1. 更改微博跳转手机链接为电脑链接
 
+## V1.3.8 Beta
+
+> 1. 修复B站数据源
+
 # 安装方法
 
 ## Chrome安装方法
 
-> - [Chrome应用商店](https://chrome.google.com/webstore/detail/%E8%B9%B2%E9%A5%BC/gblmdllhbodefkmimbcjpflhjneagkkd?hl=zh-CN&authuser=0)
+> - 推荐 [Chrome应用商店](https://chrome.google.com/webstore/detail/%E8%B9%B2%E9%A5%BC/gblmdllhbodefkmimbcjpflhjneagkkd?hl=zh-CN&authuser=0) 
 > - 下载zip通过开发者模式加载已解压的扩展程序
 
 ## Firefox安装方法
@@ -100,7 +104,12 @@
 # 注意事项
 
 只支持Chrome 不知道其他的浏览器安装会怎么样
-因为B站的json总是有奇怪的字符，所以，发现bug，请及时和我说，我好针对那条动态修改
+
 # 下一步
 
-不知道，先测试BUG。
+> - 界面添加B站和微博标题
+> - 图片九宫格
+> - 视频播放功能
+> - 通讯组和塞壬唱片数据展示调整
+> - 重构B站获取方法
+

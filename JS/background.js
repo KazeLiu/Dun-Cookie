@@ -6,7 +6,7 @@ var Kaze = {
         yj: [],
         bili: []
     },
-    version: '1.3.7',
+    version: '1.3.8 Beta',
     isTest: false,
     isFrist: true,
     //请求次数
@@ -17,7 +17,7 @@ var Kaze = {
     setting: {
         time: 15000,
         getweibo: true,
-        getbili: false,
+        getbili: true,
         getyj: true,
         getcho3: true,
         getys3: true,
@@ -135,7 +135,7 @@ let getAndProcessWeiboData = {
                                 image: dynamicInfo.bmiddle_pic || dynamicInfo.original_pic,
                                 type: that.getdynamicType(dynamicInfo),
                                 source: opt.source,
-                                url: "https://weibo.com/" + weiboId.substring((weiboId.length-10), weiboId.length) + "/" + x.mblog.bid,
+                                url: "https://weibo.com/" + weiboId.substring((weiboId.length - 10), weiboId.length) + "/" + x.mblog.bid,
                             });
                         }
                     });
@@ -185,8 +185,8 @@ let getAndProcessWeiboData = {
 }
 
 let getBili = {
-    url: `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300`,
-    // url:`https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300&offset_dynamic_id=0&need_top=0&platform=web`,
+
+    url: `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300&offset_dynamic_id=0&need_top=0&platform=web`,
     dturl: `https://space.bilibili.com/161775300/dynamic`,
     // B站：动态列表
     cardlist: [],
@@ -199,14 +199,27 @@ let getBili = {
             if (data.code == 0 && data.data != null && data.data.cards != null && data.data.cards.length > 0) {
                 data.data.cards.map(x => {
                     let dynamicInfo = JSON.parse(x.card);
-                    that.cardlist.push({
-                        time: x.desc.timestamp,
-                        dynamicInfo: that.GetdynamicInfo(dynamicInfo),
-                        image: that.GetdynamicImage(dynamicInfo),
-                        type: that.GetdynamicType(dynamicInfo),
+                    let card = {
                         source: 0,
-                        url: dynamicInfo.short_link || that.dturl
-                    });
+                        time: x.desc.timestamp,
+                        type: x.desc.type
+                    };
+                    //  desc.type   8 是视频 64是专栏 2是动态
+                    // todo 等微博数据分析完毕 就添加titile
+                    if (x.desc.type == 2) {
+                        card.image = (dynamicInfo.item.pictures && dynamicInfo.item.pictures.length > 0) ? dynamicInfo.item.pictures[0].img_src : null;
+                        card.dynamicInfo = dynamicInfo.item.description;
+                        card.url = `https://t.bilibili.com/${x.desc.dynamic_id_str}`
+                    } else if (x.desc.type == 8) {
+                        card.image = dynamicInfo.pic;
+                        card.dynamicInfo = dynamicInfo.dynamic;
+                        card.url = `https://t.bilibili.com/${x.desc.dynamic_id_str}`
+                    } else if (x.desc.type == 64) {
+                        card.image = (dynamicInfo.image_urls && dynamicInfo.image_urls.length > 0) ? dynamicInfo.image_urls[0] : null;
+                        card.dynamicInfo = dynamicInfo.summary;
+                        card.url = `https://t.bilibili.com/${x.desc.dynamic_id_str}`
+                    }
+                    that.cardlist.push(card);
                 });
                 that.cardlist.sort((x, y) => x.time < y.time ? 1 : -1);
                 that.JudgmentNew(that.cardlist);
@@ -215,41 +228,6 @@ let getBili = {
 
         }
             , { name: "Bilibili动态", type: 'getbili' });
-    },
-    GetdynamicType(dynamic) {
-        // 0为视频 1为动态
-        let type = -1;
-        if (dynamic.hasOwnProperty('item')) {
-            type = 1;
-        }
-        else {
-            type = 0;
-        }
-        return type;
-    },
-    GetdynamicInfo(dynamic) {
-        // 0为视频 1为动态
-        let dynamicInfo = '';
-        if (dynamic.hasOwnProperty('item')) {
-            dynamicInfo = dynamic.item.description || dynamic.item.content;
-        }
-        else {
-            dynamicInfo = dynamic.desc || dynamic.title;
-        }
-        return dynamicInfo;
-    },
-    GetdynamicImage(dynamic) {
-        // 0为视频 1为动态
-        let dynamicInfo = null;
-        if (dynamic.hasOwnProperty('item')) {
-            if (dynamic.item.hasOwnProperty('pictures')) {
-                dynamicInfo = dynamic.item.pictures.length > 0 ? dynamic.item.pictures[0].img_src : null;
-            }
-        }
-        else {
-            dynamicInfo = dynamic.pic || dynamic.pic;
-        }
-        return dynamicInfo;
     },
     JudgmentNew(dynamiclist) {
         let oldcardlist = Kaze.cardlistdm.bili

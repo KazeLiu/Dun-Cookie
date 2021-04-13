@@ -32,24 +32,16 @@ let Kaze = {
             cardlist.map(x => {
                 //0 b服 1微博 2通讯组 3朝陇山 4一拾山
                 if (x.source == 0) {
-                    if (x.type == 0) {
-                        html += `<div class="card" data-type="0" data-url="${x.url}">
-                        <div class="head">
-                            <img src="../image/bili.ico">
-                            <span class="time">${common.TimespanTotime(x.time)}</span>
-                        </div>
-                        <div class="content">
-                        <div>${x.dynamicInfo.replace(/\n/g, "<br/>")}</div><div class="imgarea ${x.image ? '' : 'hide'}"><img src="${x.image ? x.image : ''}"></div></div>
-                            </div>`;
-                    } else if (x.type == 1) {
-                        html += `<div class="card" data-type="0" data-url="${x.url}">
-                        <div class="head">
-                            <img src="../image/bili.ico">
-                                <span class="time">${common.TimespanTotime(x.time)}</span>
-                            </div>
-                        <div class="content"><div>${x.dynamicInfo.replace(/\n/g, "<br/>")}</div><div class="imgarea ${x.image ? '' : 'hide'}"><img src="${x.image ? x.image : ''}"></div></div>
-                            </div>`;
-                    }
+                    console.log(x);
+                    // 8 是视频 64是专栏 2是动态
+                    html += `<div class="card" data-type="0" data-url="${x.url}">
+                    <div class="head">
+                        <img src="../image/bili.ico">
+                        <span class="time">${common.TimespanTotime(x.time)}</span>
+                    </div>
+                    <div class="content">
+                    <div>${x.dynamicInfo.replace(/\n/g, "<br/>")}</div><div class="imgarea ${x.image ? '' : 'hide'}"><img src="${x.image ? x.image : ''}"></div></div>
+                        </div>`;
                 }
                 else if (x.source == 1) {
                     html += `<div class="card" data-type="1"   data-url="${x.url}">
