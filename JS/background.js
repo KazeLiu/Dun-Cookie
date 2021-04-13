@@ -6,7 +6,7 @@ var Kaze = {
         yj: [],
         bili: []
     },
-    version: '1.3.6  Beta',
+    version: '1.3.6',
     isTest: false,
     isFrist: true,
     //请求次数
