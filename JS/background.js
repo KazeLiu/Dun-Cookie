@@ -17,7 +17,7 @@ var Kaze = {
     setting: {
         time: 15000,
         getweibo: true,
-        getbili: true,
+        getbili: false,
         getyj: true,
         getcho3: true,
         getys3: true,
@@ -143,7 +143,6 @@ let getAndProcessWeiboData = {
                     that.cardlist[opt.dataName].sort((x, y) => x.time < y.time ? 1 : -1);
                     let hasNew = that.judgmentNew(that.cardlist[opt.dataName], opt);
                     Kaze.cardlistdm[opt.dataName] = that.cardlist[opt.dataName];
-                    // console.log( that.cardlist[opt.dataName]);
                     if (typeof opt.success == 'function') {
                         opt.success(hasNew, that.cardlist[opt.dataName]);
                     }
@@ -165,7 +164,6 @@ let getAndProcessWeiboData = {
     },
     judgmentNew(dynamiclist, opt) {
         let oldcardlist = Kaze.cardlistdm[opt.dataName];
-        console.log(oldcardlist,dynamiclist,opt.dataName)
         if (oldcardlist.length > 0 && oldcardlist[0].time != dynamiclist[0].time && dynamiclist[0].time > oldcardlist[0].time) {
             console.log(opt.title, new Date(), dynamiclist[0], oldcardlist[0]);
             if (dynamiclist[0].image) {
@@ -188,6 +186,7 @@ let getAndProcessWeiboData = {
 
 let getBili = {
     url: `https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300`,
+    // url:`https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=161775300&offset_dynamic_id=0&need_top=0&platform=web`,
     dturl: `https://space.bilibili.com/161775300/dynamic`,
     // B站：动态列表
     cardlist: [],
