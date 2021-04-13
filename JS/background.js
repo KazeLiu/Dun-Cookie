@@ -125,7 +125,7 @@ let getAndProcessWeiboData = {
                 let data = JSON.parse(responseText);
                 if (data.ok == 1 && data.data != null && data.data.cards != null && data.data.cards.length > 0) {
                     data.data.cards.map(x => {
-                        if (x.hasOwnProperty('mblog') && !x.mblog.hasOwnProperty('title')) {
+                        if (x.hasOwnProperty('mblog') && !x.mblog.hasOwnProperty('title') && !x.mblog.hasOwnProperty('retweeted_status')) {
                             let dynamicInfo = x.mblog;
                             that.cardlist[opt.dataName].push({
                                 time: Math.floor(new Date(dynamicInfo.created_at).getTime() / 1000),
