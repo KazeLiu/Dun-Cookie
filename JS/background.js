@@ -127,6 +127,7 @@ let getAndProcessWeiboData = {
                     data.data.cards.map(x => {
                         if (x.hasOwnProperty('mblog') && !x.mblog.hasOwnProperty('title') && !x.mblog.hasOwnProperty('retweeted_status')) {
                             let dynamicInfo = x.mblog;
+                            let weiboId = data.data.cardlistInfo.containerid;
                             that.cardlist[opt.dataName].push({
                                 time: Math.floor(new Date(dynamicInfo.created_at).getTime() / 1000),
                                 dynamicInfo: dynamicInfo.text,
@@ -134,7 +135,7 @@ let getAndProcessWeiboData = {
                                 image: dynamicInfo.bmiddle_pic || dynamicInfo.original_pic,
                                 type: that.getdynamicType(dynamicInfo),
                                 source: opt.source,
-                                url: x.scheme
+                                url: "https://weibo.com/" + weiboId.substring((weiboId.length-10), weiboId.length) + "/" + x.mblog.bid,
                             });
                         }
                     });
