@@ -204,11 +204,14 @@ let getBili = {
                         time: x.desc.timestamp,
                         type: x.desc.type
                     };
-                    //  desc.type   8 是视频 64是专栏 2是动态
+                    //  desc.type   8 是视频 64是专栏 2是动态 4是无图片动态
                     // todo 等微博数据分析完毕 就添加titile
                     if (x.desc.type == 2) {
                         card.image = (dynamicInfo.item.pictures && dynamicInfo.item.pictures.length > 0) ? dynamicInfo.item.pictures[0].img_src : null;
                         card.dynamicInfo = dynamicInfo.item.description;
+                        card.url = `https://t.bilibili.com/${x.desc.dynamic_id_str}`
+                    } else if (x.desc.type == 4) {
+                        card.dynamicInfo = dynamicInfo.item.content;
                         card.url = `https://t.bilibili.com/${x.desc.dynamic_id_str}`
                     } else if (x.desc.type == 8) {
                         card.image = dynamicInfo.pic;
