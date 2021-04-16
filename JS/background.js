@@ -222,7 +222,9 @@ let getBili = {
                         card.dynamicInfo = dynamicInfo.summary;
                         card.url = `https://t.bilibili.com/${x.desc.dynamic_id_str}`
                     }
-                    that.cardlist.push(card);
+                    if (x.desc.type == 2 || x.desc.type == 4 || x.desc.type == 8 || x.desc.type == 64) {
+                        that.cardlist.push(card);
+                    }
                 });
                 that.cardlist.sort((x, y) => x.time < y.time ? 1 : -1);
                 that.JudgmentNew(that.cardlist);
