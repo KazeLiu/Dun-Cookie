@@ -16,7 +16,6 @@
         setInterval(() => {
             Kaze.GetbackgroundData();
             Kaze.ShowList(cardlist);
-            Kaze.BindBtn();
             if (showimg == "false") {
                 document.querySelectorAll('.imgarea').forEach(item => {
                     item.classList.add('hide');
@@ -33,7 +32,7 @@ let Kaze = {
                 //0 b服 1微博 2通讯组 3朝陇山 4一拾山
                 if (x.source == 0) {
                     // console.log(x);
-                    // 8 是视频 64是专栏 2是动态
+                    //  2是动态 4是无图片动态 8 是视频 64是专栏
                     html += `<div class="card" data-type="0" >
                     <div class="head">
                        <span class="left">
