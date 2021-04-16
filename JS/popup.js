@@ -32,50 +32,70 @@ let Kaze = {
             cardlist.map(x => {
                 //0 b服 1微博 2通讯组 3朝陇山 4一拾山
                 if (x.source == 0) {
-                    console.log(x);
+                    // console.log(x);
                     // 8 是视频 64是专栏 2是动态
-                    html += `<div class="card" data-type="0" data-url="${x.url}">
+                    html += `<div class="card" data-type="0" >
                     <div class="head">
+                       <span class="left">
                         <img src="../image/bili.ico">
+                        <span class="title"></span>
+                       </span>
                         <span class="time">${common.TimespanTotime(x.time)}</span>
+                        <span class="btn" data-url="${x.url}">查看详情</span>
                     </div>
                     <div class="content">
                     <div>${x.dynamicInfo.replace(/\n/g, "<br/>")}</div><div class="imgarea ${x.image ? '' : 'hide'}"><img src="${x.image ? x.image : ''}"></div></div>
                         </div>`;
                 }
                 else if (x.source == 1) {
-                    html += `<div class="card" data-type="1"   data-url="${x.url}">
+                    html += `<div class="card" data-type="1"  >
                     <div class="head">
+                    <span class="left">
                     <img src="../image/weibo.ico">
+                    <span class="title"></span>
+                   </span>
                     <span class="time">${common.TimespanTotime(x.time)}</span>
+                    <span class="btn"  data-url="${x.url}">查看详情</span>
                 </div>
                 <div class="content"> <div>${x.text}</div><div class="imgarea ${x.image ? '' : 'hide'}"><img src="${x.image ? x.image : ''}"></div></div>
                     </div>`;
                 }
                 else if (x.source == 2) {
-                    html += `<div class="card" data-type="2"  data-url="${x.url}" >
+                    html += `<div class="card" data-type="2" >
                             <div class="head">
-                            <img src="../image/mrfz.ico">
-                            <span class="time">公布日置顶 ${common.TimespanTotime(x.time, 2)}</span>
+                            <span class="left">
+                                <img src="../image/mrfz.ico">
+                                <span class="title">${x.text}</span>
+                            </span>
+                            <span class="time" title="公布日置顶">${common.TimespanTotime(x.time, 2)}</span>
+                            <span class="btn" data-url="${x.url}" >查看详情</span>
                         </div>
-                        <div class="content"><div>${x.text}</div><div class="imgarea ${x.image ? '' : 'hide'}"><img src="${x.image ? x.image : ''}"></div></div>
+                        
                             </div>`;
                 }
                 else if (x.source == 3) {
-                    html += `<div class="card" data-type="3"  data-url="${x.url}">
+                    html += `<div class="card" data-type="3" >
                             <div class="head">
-                            <img src="../image/cho3.jpg">
+                            <span class="left">
+                                <img src="../image/cho3.jpg">
+                                <span class="title"></span>
+                            </span>
                             <span class="time">${common.TimespanTotime(x.time)}</span>
+                            <span class="btn">查看详情</span>
                         </div>
-                        <div class="content"><div>${x.text}</div><div class="imgarea ${x.image ? '' : 'hide'}"><img src="${x.image ? x.image : ''}"></div></div>
+                        <div class="content"  data-url="${x.url}"><div>${x.text}</div><div class="imgarea ${x.image ? '' : 'hide'}"><img src="${x.image ? x.image : ''}"></div></div>
                             </div>`;
 
                 }
                 else if (x.source == 4) {
-                    html += `<div class="card" data-type="4"   data-url="${x.url}">
+                    html += `<div class="card" data-type="4"  >
                     <div class="head">
-                    <img src="../image/ys3.jpg">
+                    <span class="left">
+                        <img src="../image/ys3.jpg">
+                        <span class="title"></span>
+                    </span>
                     <span class="time">${common.TimespanTotime(x.time)}</span>
+                    <span class="btn"  data-url="${x.url}">查看详情</span>
                 </div>
                 <div class="content"> <div>${x.text}</div><div class="imgarea ${x.image ? '' : 'hide'}"><img src="${x.image ? x.image : ''}"></div></div>
                     </div>`;
@@ -83,7 +103,7 @@ let Kaze = {
             });
             document.getElementById('title-content').innerHTML = html;
         }
-        let card = document.querySelectorAll('.card');
+        let card = document.querySelectorAll('.card .btn');
         card.forEach(item => {
             item.addEventListener('click', event => {
                 chrome.tabs.create({ url: event.currentTarget.dataset.url });

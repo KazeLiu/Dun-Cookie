@@ -28,14 +28,7 @@ body {
     box-shadow: 0px 0px 10px 0px #22222285;
 }
 
-.title {
-    color: #23ade5;
-    width: 100%;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
+
 
 #btnarea {
     display: flex;
@@ -94,6 +87,11 @@ body {
     background-color: rgb(188, 178, 255);
 }
 
+#title {
+    color: #23ade5;
+    text-align: center;
+}
+
 #title-content {
     margin-top: 80px;
     font-size: 14px;
@@ -123,7 +121,6 @@ body {
     padding-bottom: 10px;
     background: #fff;
     padding: 10px;
-    cursor: pointer;
     transition: box-shadow 0.5s;
     font-size: 1em;
 }
@@ -138,17 +135,34 @@ body {
 
 .card .head {
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
-
-.card .head img {
+.card .head .left{
+    display: flex;
+    align-items: center;
+}
+.card .head .left img {
     height: 30px;
+}
+
+.card .head .left .title{
+    text-align: left;
+    margin-left: 10px;
 }
 
 .card .head .time {
     color: #23ade5;
     font-size: 1.1em;
     margin-left: 20px;
+}
+
+.card .head .btn{
+    border:1px solid #23ade5;
+    border-radius: 6px;
+    cursor: pointer;
+    color:#23ade5;
+    padding: 2px 5px;
 }
 
 .card .content {
@@ -158,7 +172,28 @@ body {
 .card .imgarea {
     margin: 10px auto;
     text-align: center;
+    /* height: 370px; */
+    height: auto;
+    overflow: hidden;
+    position: relative;
 }
+/* .card .imgarea::after{
+    content: '';
+    color:#23ade5;
+    width: 100%;
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(0deg, #fff, transparent);
+}
+
+.card .imgarea.auto {
+    height: auto;
+}
+.card .imgarea.auto::after{
+    content:''
+} */
 
 .card .imgarea img {
     max-width: 100%;
