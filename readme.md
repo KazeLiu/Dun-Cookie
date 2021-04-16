@@ -1,5 +1,7 @@
 # 鹰角蹲饼器
 
+## 请进入releases内下载 Dun-Cookie-1.3.8_Beta_Repair 使用
+
 ## 用于实时抓取兔兔发的动态
 
 ![avatar](https://raw.githubusercontent.com/LiuZiYang1/Dun-Cookie/master/mdImg/2.png)
@@ -89,7 +91,10 @@
 
 ## V1.3.8.01 Repair
 
+    鹰角又调皮了，他修复，让我们跟着一起修复
+
 > 1. 修复无法显示BUG
+> 2. 设置页面添加反馈通道提示
 
 # 安装方法
 
@@ -119,4 +124,4 @@
 > - 通讯组和塞壬唱片和官网数据展示调整
 > - 重构B站获取方法（多个B站数据源以后）
 > - 饼发送监控（官网指定ID改变）
-
+> - 过长图片隐藏一半
