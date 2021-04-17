@@ -6,7 +6,7 @@ var Kaze = {
         yj: [],
         bili: []
     },
-    version: '1.3.8.01 Repair',
+    version: '1.3.9',
     isTest: false,
     isFrist: true,
     //请求次数
@@ -73,6 +73,9 @@ var Kaze = {
     },
     Init() {
         let that = this;
+        // chrome.browserAction.setBadgeText({text: '测试'});
+        // chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
+
         chrome.storage.local.get(['setting'], result => {
             if (result.setting == undefined) {
                 chrome.storage.local.set({
