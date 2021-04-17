@@ -1,6 +1,8 @@
-# 鹰角蹲饼器
+# 鹰角蹲饼器（项目结束，请转至V2.0版本）
 
-## 请进入releases内下载 Dun-Cookie-1.3.8_Beta_Repair 使用
+## ~~请进入releases内下载 Dun-Cookie-1.3.9 使用~~
+## 新的 [蹲饼器V2.0](https://github.com/Enraged-Dun-Cookie-Development-Team/vue-dun-cookies)
+> **更换使用vue框架编写，更精美的UI，更多的功能**
 
 ## 用于实时抓取兔兔发的动态
 
@@ -96,6 +98,10 @@
 > 1. 修复无法显示BUG
 > 2. 设置页面添加反馈通道提示
 
+## V1.3.9
+> 1. 限制B站获取的动态类型
+> 2. 修复按钮跳转出现多个网页的BUG
+
 # 安装方法
 
 ## Chrome安装方法
@@ -125,3 +131,4 @@
 > - 重构B站获取方法（多个B站数据源以后）
 > - 饼发送监控（官网指定ID改变）
 > - 过长图片隐藏一半
+> - **将于新的 [蹲饼器V2.0](https://github.com/Enraged-Dun-Cookie-Development-Team/vue-dun-cookies)实现**
