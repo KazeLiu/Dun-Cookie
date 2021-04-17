@@ -1,7 +1,7 @@
 # 鹰角蹲饼器（项目结束，请转至V2.0版本）
 
 ## ~~请进入releases内下载 Dun-Cookie-1.3.9 使用~~
-## 新的 [蹲饼器V2.0](https://github.com/Enraged-Dun-Cookie-Development-Team/vue-dun-cookies)
+## 新的 [蹲饼器V2.0](https://github.com/Enraged-Dun-Cookie-Development-Team/Dun-Cookie-Vue)
 > **更换使用vue框架编写，更精美的UI，更多的功能**
 
 ## 用于实时抓取兔兔发的动态
@@ -131,4 +131,4 @@
 > - 重构B站获取方法（多个B站数据源以后）
 > - 饼发送监控（官网指定ID改变）
 > - 过长图片隐藏一半
-> - **将于新的 [蹲饼器V2.0](https://github.com/Enraged-Dun-Cookie-Development-Team/vue-dun-cookies)实现**
+> - **将于新的 [蹲饼器V2.0](https://github.com/Enraged-Dun-Cookie-Development-Team/Dun-Cookie-Vue)实现**
