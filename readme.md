@@ -2,7 +2,7 @@
 
 ## ~~请进入releases内下载 Dun-Cookie-1.3.9 使用~~
 ## 新的 [蹲饼器V2.0](https://github.com/Enraged-Dun-Cookie-Development-Team/Dun-Cookie-Vue)
-> **更换使用vue框架编写，更精美的UI，更多的功能**
+> **更换使用vue框架编写，更精美的UI，更多的功能**(开发中，现在还是先用V1.3.9)
 
 ## 用于实时抓取兔兔发的动态
 
